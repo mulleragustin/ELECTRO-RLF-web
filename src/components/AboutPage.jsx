@@ -61,8 +61,18 @@ const DIFFERENCES = [
 export default function AboutPage() {
   return (
     <main className="bg-black">
-      <section className="border-b border-[#4a47321a] bg-black pb-20 pt-16 md:pb-28 md:pt-24 lg:pb-32 lg:pt-28">
-        <div className="container-section">
+      <section className="relative overflow-hidden border-b border-[#4a47321a] bg-black pb-20 pt-16 md:pb-28 md:pt-24 lg:pb-32 lg:pt-28">
+        {/* Ambient orbs */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute -right-[200px] -top-[200px] h-[700px] w-[700px] rounded-full bg-[#fff212] opacity-[0.18] blur-[100px]" />
+          <div className="absolute -left-[100px] bottom-[-50px] h-[500px] w-[500px] rounded-full bg-[#fff212] opacity-[0.1] blur-[90px]" />
+        </div>
+        {/* Noise grain */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.07]"
+          style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\")", backgroundSize: '200px 200px' }}
+        />
+        <div className="container-section relative z-10">
           <SectionLabel>
             sobre nosotros
           </SectionLabel>
@@ -122,8 +132,16 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="border-y border-[#4a47321a] bg-[#131313] py-20 md:py-28 lg:py-[120px]">
-        <div className="container-section flex flex-col gap-16 lg:gap-20 xl:gap-[80px]">
+      <section
+        className="relative overflow-hidden border-y border-[#4a47321a] py-20 md:py-28 lg:py-[120px]"
+        style={{
+          backgroundImage: `linear-gradient(rgba(255,242,18,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,242,18,0.08) 1px, transparent 1px), linear-gradient(#131313, #131313)`,
+          backgroundSize: '60px 60px, 60px 60px, 100%',
+        }}
+      >
+        {/* Fade top/bottom to hide grid at edges */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#131313] via-transparent to-[#131313]" />
+        <div className="container-section relative z-10 flex flex-col gap-16 lg:gap-20 xl:gap-[80px]">
           <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
             <div className="max-w-[576px]">
               <p className="text-[48px] font-extrabold leading-none tracking-[-2.4px] text-[#fff212]">
@@ -153,8 +171,12 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-black py-20 md:py-28 lg:py-[120px]">
-        <div className="container-section">
+      <section className="relative overflow-hidden bg-black py-20 md:py-28 lg:py-[120px]">
+        {/* Left ambient glow */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="animate-orb-float absolute -left-[100px] top-1/4 h-[800px] w-[800px] rounded-full bg-[#fff212] opacity-[0.1] blur-[130px]" />
+        </div>
+        <div className="container-section relative z-10">
           <div className="grid gap-16 md:grid-cols-[1fr_1fr] md:items-start md:gap-10 lg:gap-14 xl:grid-cols-[568px_568px] xl:justify-between xl:gap-20">
             <div>
               <p className="text-[32px] font-extrabold leading-none tracking-[-1px] text-[#fff212] md:text-[48px] md:tracking-[-2.4px]">

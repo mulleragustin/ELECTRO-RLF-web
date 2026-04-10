@@ -67,3 +67,25 @@ body {
 .animate-marquee:hover {
   animation-play-state: paused;
 }
+
+/* Slow ambient orb pulse */
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.023; transform: translate(-50%, -50%) scale(1); }
+  50%       { opacity: 0.04;  transform: translate(-50%, -50%) scale(1.12); }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 8s ease-in-out infinite;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+/* Orb float */
+@keyframes orb-float {
+  0%, 100% { transform: translateY(0px);   }
+  50%       { transform: translateY(-30px); }
+}
+
+.animate-orb-float {
+  animation: orb-float 10s ease-in-out infinite;
+}

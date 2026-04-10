@@ -91,6 +91,16 @@ export default function HomePage() {
         id="inicio"
         className="relative overflow-hidden border-b border-[#4a47321a] pb-20 pt-16 md:pb-28 md:pt-24 lg:pb-32 lg:pt-28"
       >
+        {/* Ambient light orbs */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute -left-[200px] -top-[200px] h-[700px] w-[700px] rounded-full bg-[#fff212] opacity-[0.18] blur-[100px]" />
+          <div className="absolute -right-[100px] bottom-[-100px] h-[600px] w-[600px] rounded-full bg-[#fff212] opacity-[0.12] blur-[90px]" />
+        </div>
+        {/* Noise grain overlay */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.07]"
+          style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\")", backgroundSize: '200px 200px' }}
+        />
         <div className="container-section relative">
           <div className="grid gap-12 md:min-h-[714px] md:grid-cols-[1fr_320px] md:items-center md:gap-10 lg:grid-cols-[1fr_380px] lg:gap-12 xl:grid-cols-[1fr_440px] xl:gap-16">
             <div className="flex flex-col gap-[31px]">
@@ -176,8 +186,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section id="servicios" className="bg-black py-20 md:py-28 lg:py-32">
-        <div className="container-section flex flex-col gap-24">
+      <section id="servicios" className="relative overflow-hidden bg-black py-20 md:py-28 lg:py-32">
+        {/* Subtle yellow ambient orb */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="animate-pulse-slow absolute right-[-10%] top-1/2 h-[900px] w-[900px] -translate-y-1/2 rounded-full bg-[#fff212] opacity-[0.1] blur-[120px]" />
+        </div>
+        <div className="container-section relative z-10 flex flex-col gap-24">
           <header>
             <SectionTitle className="max-w-[1216px]">
               Todo lo que tu casa necesita
@@ -244,8 +258,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-[#1b1b1b] py-20 md:py-28 lg:py-32">
-        <div className="container-section flex flex-col gap-24">
+      <section
+        className="relative overflow-hidden bg-[#1b1b1b] py-20 md:py-28 lg:py-32"
+        style={{
+          backgroundImage: `linear-gradient(rgba(255,242,18,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,242,18,0.08) 1px, transparent 1px)`,
+          backgroundSize: '60px 60px',
+        }}
+      >
+        {/* Corner fade to blend grid with section edges */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#1b1b1b] via-transparent to-[#1b1b1b]" />
+        <div className="container-section relative z-10 flex flex-col gap-24">
           <header className="text-center">
             <SectionTitle className="uppercase">
               &iquest;Por qu&eacute; nos eligen?

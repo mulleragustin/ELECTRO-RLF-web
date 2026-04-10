@@ -1,0 +1,15 @@
+node_modules
+dist
+.git
+.gitignore
+.vscode
+.idea
+.edge-about-profile
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+.env
+.env.*
+!.env.example
+README.md

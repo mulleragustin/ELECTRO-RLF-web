@@ -1,0 +1,310 @@
+import {
+  ArrowRight,
+  ShoppingCart,
+  MessageSquare,
+  CircleCheck,
+  Zap,
+  ShieldCheck,
+  Grid2x2Plus,
+  Lightbulb,
+  UserCog,
+  Wallet,
+  Wrench,
+} from 'lucide-react'
+import { whatsappLink } from '../site'
+import Button from './ui/Button'
+import SectionLabel from './ui/SectionLabel'
+import SectionTitle from './ui/SectionTitle'
+import ImageSkeleton from './ui/ImageSkeleton'
+
+const HERO_IMAGE = '/hero-home.png'
+const MATERIALS_IMAGE = '/assets/home-materials.png'
+
+const HOME_CTA_MESSAGE = encodeURIComponent(
+  'Hola! Quiero cotizar materiales o una instalacion para mi casa.',
+)
+
+const SMALL_SERVICE_CARDS = [
+  {
+    title: 'Armado de tableros',
+    description:
+      'Expertos en tableros eléctricos principales y seccionales para el hogar.',
+    icon: Grid2x2Plus,
+  },
+  {
+    title: 'Iluminación',
+    description:
+      'Especialistas en iluminación técnica y LED para ambientes modernos.',
+    icon: Lightbulb,
+  },
+  {
+    title: 'Ferretería general',
+    description:
+      'Herramientas, pinturas e insumos esenciales para tus arreglos.',
+    icon: Wrench,
+    watermark: '+500',
+  },
+]
+
+const DIFFERENTIALS = [
+  {
+    title: ['Precios sin', 'competencia'],
+    description:
+      'Cuidamos tu bolsillo con los materiales más accesibles del mercado. Directo de fábrica.',
+    icon: Wallet,
+  },
+  {
+    title: ['Velocidad que', 'sorprende'],
+    description:
+      'Entregas y respuestas rápidas porque sabemos que tus arreglos no pueden esperar.',
+    icon: Zap,
+  },
+  {
+    title: ['Proceso 100% simple'],
+    description:
+      'Nos escribís, cotizamos online y avanzamos. Sin vueltas técnicas ni complicaciones.',
+    icon: CircleCheck,
+  },
+]
+
+const MARQUEE_BRANDS = [
+  'Sica',
+  'Lusqtoff',
+  'Dowen Pagio',
+  'Crossmaster',
+  'Bta',
+  'Klaukol',
+  'Weber',
+  'Lessa',
+  'Jeluz',
+  'Ideal',
+  'Sekur',
+  'Prive',
+  'Megaflex',
+  'Baco',
+]
+
+export default function HomePage() {
+  return (
+    <main className="bg-black">
+      <section
+        id="inicio"
+        className="relative overflow-hidden border-b border-[#4a47321a] pb-20 pt-16 md:pb-28 md:pt-24 lg:pb-32 lg:pt-28"
+      >
+        <div className="container-section relative">
+          <div className="grid gap-12 md:min-h-[714px] md:grid-cols-[1fr_320px] md:items-center md:gap-10 lg:grid-cols-[1fr_380px] lg:gap-12 xl:grid-cols-[1fr_440px] xl:gap-16">
+            <div className="flex flex-col gap-[31px]">
+              <SectionLabel>
+                Ferretería eléctrica & servicios
+              </SectionLabel>
+
+              <h1 className="max-w-[683px] text-[40px] font-extrabold leading-[1.1] tracking-[-1.6px] text-white md:text-[64px] md:tracking-[-2px] xl:text-[88px] xl:tracking-[-2.4px]">
+                <span className="block">Ferretería</span>
+                <span className="block">
+                  <span className="italic text-[#fff212]">eléctrica</span> en
+                </span>
+                <span className="block">Resistencia.</span>
+              </h1>
+
+              <div className="max-w-[576px] text-[18px] font-medium leading-[1.55] text-[#e2e2e2cc] md:text-[20px] md:leading-[32.5px]">
+                <p>Venta de materiales eléctricos en Resistencia Chaco</p>
+                <p>y Electricista a domicilio rápido para tu hogar.</p>
+                <p>Armado de tableros eléctricos para viviendas y</p>
+                <p>presupuesto de instalación eléctrica para casa al instante.</p>
+              </div>
+
+              <Button
+                href={whatsappLink(HOME_CTA_MESSAGE)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <MessageSquare className="size-5" />
+                Contacto por WhatsApp
+              </Button>
+            </div>
+
+            <div className="relative">
+              <div className="mx-auto flex w-full max-w-[472px] justify-center md:justify-end">
+                <div className="aspect-[4/5] w-full max-w-[320px] rounded-2xl border-2 border-[#fff21233] bg-[#131313] md:aspect-auto md:h-[360px] md:w-[360px] lg:h-[420px] lg:w-[420px] xl:h-[480px] xl:w-[440px]">
+                  <ImageSkeleton
+                    src={HERO_IMAGE}
+                    alt="Electricista residencial rápido Resistencia: Interior preparado para instalación eléctrica y mantenimiento preventivo eléctrico precios"
+                    priority={true}
+                    wrapperClassName="h-full rounded-[10px]"
+                    className="grayscale"
+                  >
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  </ImageSkeleton>
+                </div>
+              </div>
+
+              <div className="mt-6 max-w-[260px] rounded-2xl border border-[#fff21233] bg-[#131313]/90 p-7 text-white shadow-[0_20px_40px_rgba(0,0,0,0.5)] backdrop-blur-md md:absolute md:bottom-[-24px] md:left-[-24px] md:mt-0 md:p-9 xl:bottom-[-32px] xl:left-[-32px]">
+                <div className="flex items-center gap-3 text-[14px] font-extrabold uppercase tracking-[-0.05em] text-[#fff212]">
+                  <ShieldCheck className="size-5" />
+                  <span>Productos de calidad</span>
+                </div>
+                <p className="mt-3 text-[13px] font-medium leading-[1.4] text-[#ccc7ab]">
+                  Seguridad eléctrica garantizada bajo estándares internacionales
+                  en cada componente.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#fff212] py-5 md:py-6 overflow-hidden">
+        <div className="relative flex">
+          {/* Fade masks for smooth entry/exit -> Updated to blend with yellow bg */}
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-[#fff212] to-transparent md:w-32" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-[#fff212] to-transparent md:w-32" />
+
+          {/* Marquee track */}
+          <div className="animate-marquee flex w-max items-center gap-8 md:gap-16 pl-8 md:pl-16">
+            {[...MARQUEE_BRANDS, ...MARQUEE_BRANDS].map((brand, i) => (
+              <div
+                key={i}
+                className="flex items-center gap-8 md:gap-16"
+              >
+                <span className="text-[15px] font-extrabold uppercase tracking-[0.25em] text-black md:text-[18px]">
+                  {brand}
+                </span>
+                <span className="text-black/20">&bull;</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="servicios" className="bg-black py-20 md:py-28 lg:py-32">
+        <div className="container-section flex flex-col gap-24">
+          <header>
+            <SectionTitle className="max-w-[1216px]">
+              Todo lo que tu casa necesita
+            </SectionTitle>
+          </header>
+
+          <div className="grid gap-6 md:grid-cols-[1.85fr_1fr] md:items-stretch xl:grid-cols-[792px_400px] xl:justify-between">
+            <article className="rounded-2xl border border-[#fff21226] bg-[#131313] p-8 md:min-h-[420px] lg:p-12">
+              <div className="max-w-[448px]">
+                <UserCog className="size-10 text-[#fff212]" />
+
+                <h3 className="mt-8 text-[30px] font-extrabold uppercase leading-[36px] tracking-[-0.75px] text-white">
+                  <span className="block">Electricista a</span>
+                  <span className="block">domicilio y</span>
+                  <span className="block">mantenimiento</span>
+                </h3>
+
+                <p className="mt-6 text-[18px] font-medium leading-7 text-[#e2e2e2b3]">
+                  Instalaciones eléctricas zona sur / centro.
+                  Electricista residencial rápido Resistencia. Pedí presupuesto de instalación eléctrica casa y mantenimiento preventivo eléctrico precios.
+                </p>
+
+                <a
+                  href={whatsappLink(HOME_CTA_MESSAGE)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-10 inline-flex items-center gap-4 border-b-2 border-[#fff2124d] pb-1 text-[14px] font-extrabold uppercase tracking-[0.1em] text-[#fff212]"
+                >
+                  Consultar servicio
+                  <ArrowRight className="size-4" />
+                </a>
+              </div>
+            </article>
+
+            <article
+              id="productos"
+              className="flex scroll-mt-24 flex-col justify-between overflow-hidden rounded-2xl border border-[#fff21226] bg-[#131313] p-8 text-white md:min-h-[420px] lg:p-12"
+            >
+              <div>
+                <ShoppingCart className="size-10 text-[#fff212]" />
+                <h3 className="mt-6 text-[24px] font-extrabold uppercase leading-[30px] text-white">
+                  Ferretería eléctrica online
+                </h3>
+                <p className="mt-4 text-[14px] font-medium leading-[1.6] text-[#ccc7ab]">
+                  Comprar cables y térmicas, insumos eléctricos a los mejores precios. Encontrá nuestro famoso kit de herramientas básico.
+                </p>
+              </div>
+
+              <div className="mt-8 overflow-hidden rounded-xl bg-white md:h-[224px]">
+                <img
+                  src={MATERIALS_IMAGE}
+                  alt="Venta de materiales eléctricos, insumos eléctricos precios y kit de herramientas básico"
+                  className="h-full w-full object-contain p-4"
+                />
+              </div>
+            </article>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-3 xl:grid-cols-[389px_389px_390px] xl:justify-between">
+            {SMALL_SERVICE_CARDS.map((card) => (
+              <ServiceMiniCard key={card.title} {...card} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#1b1b1b] py-20 md:py-28 lg:py-32">
+        <div className="container-section flex flex-col gap-24">
+          <header className="text-center">
+            <SectionTitle className="uppercase">
+              &iquest;Por qu&eacute; nos eligen?
+            </SectionTitle>
+          </header>
+
+          <div className="overflow-hidden rounded-2xl border border-[#4a473233] bg-[#4a473233] p-px">
+            <div className="grid gap-px md:grid-cols-3 xl:grid-cols-[405px_405px_404px] xl:justify-between">
+              {DIFFERENTIALS.map((item) => (
+                <DifferentialCard key={item.title.join(' ')} {...item} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  )
+}
+
+function ServiceMiniCard({ title, description, icon: Icon, watermark }) {
+  return (
+    <article className="relative overflow-hidden rounded-2xl border border-[#fff21226] bg-[#131313] p-8 md:min-h-[210px] lg:p-10">
+      {watermark ? (
+        <span className="pointer-events-none absolute bottom-[-16px] right-[-16px] text-[96px] font-extrabold leading-none text-[#fff2121a]">
+          {watermark}
+        </span>
+      ) : null}
+
+      <Icon className="size-7 text-[#fff212]" />
+
+      <h3 className="mt-6 text-[20px] font-extrabold uppercase leading-7 text-white">
+        {title}
+      </h3>
+
+      <p className="mt-4 text-[14px] font-medium leading-5 text-[#e2e2e299]">
+        {description}
+      </p>
+    </article>
+  )
+}
+
+function DifferentialCard({ title, description, icon: Icon }) {
+  return (
+    <article className="bg-[#131313] px-6 py-10 text-center md:min-h-[382px] md:px-12 md:py-16">
+      <div className="mx-auto flex size-20 items-center justify-center rounded-full bg-[#fff2121a] text-[#fff212]">
+        <Icon className="size-8" />
+      </div>
+
+      <h3 className="mt-10 text-[24px] font-extrabold uppercase leading-8 text-white">
+        {title.map((line) => (
+          <span key={line} className="block">
+            {line}
+          </span>
+        ))}
+      </h3>
+
+      <p className="mx-auto mt-6 max-w-[290px] text-[16px] font-medium leading-[26px] text-[#e2e2e2b3]">
+        {description}
+      </p>
+    </article>
+  )
+}

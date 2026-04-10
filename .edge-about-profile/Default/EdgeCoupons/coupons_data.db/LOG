@@ -1,0 +1,5 @@
+2026/04/10-14:18:53.091 5100 Creating DB c:\Tiny studio\Developed\ElectroRLF\.edge-about-profile\Default\EdgeCoupons/coupons_data.db since it was missing.
+2026/04/10-14:18:53.099 5100 Reusing MANIFEST c:\Tiny studio\Developed\ElectroRLF\.edge-about-profile\Default\EdgeCoupons/coupons_data.db/MANIFEST-000001
+2026/04/10-14:19:12.154 b984 Level-0 table #5: started
+2026/04/10-14:19:12.157 b984 Level-0 table #5: 682105 bytes OK
+2026/04/10-14:19:12.159 b984 Delete type=0 #3

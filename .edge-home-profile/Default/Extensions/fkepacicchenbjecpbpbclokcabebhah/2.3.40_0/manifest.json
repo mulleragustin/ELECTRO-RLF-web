@@ -1,0 +1,24 @@
+{
+   "action": {
+      "default_icon": {
+         "19": "images/icloud-icon-19x19.png",
+         "38": "images/icloud-icon-38x38.png"
+      },
+      "default_popup": "popup.html"
+   },
+   "background": {
+      "service_worker": "background.js"
+   },
+   "default_locale": "en",
+   "description": "__MSG_extDescription__",
+   "icons": {
+      "128": "images/icloud-icon-128x128.png"
+   },
+   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDyQUF4xZsYYoYJUPaRe2dPOo7YIqzMluJ78ac/Smq6KtEWqvNYXz1wvy17JsjsZ+FBwvHqU5M2VW9zeYz6s+V1jk9LXnPofNQa/0MBVUHQd8QyPiLF+HboCVVJ/q+1GmQct/pUDfAfUrGVvZP5NFmcdwu8LxDTbrgywzpBpDePaQIDAQAB",
+   "manifest_version": 3,
+   "minimum_chrome_version": "100",
+   "name": "__MSG_extName__",
+   "permissions": [ "bookmarks", "nativeMessaging", "storage" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "2.3.40"
+}

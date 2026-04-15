@@ -1,6 +1,17 @@
 import { useState } from 'react'
 
-export default function ImageSkeleton({ src, alt, className = '', wrapperClassName = '', priority = false, objectFit = 'cover', children }) {
+export default function ImageSkeleton({
+  src,
+  alt,
+  className = '',
+  wrapperClassName = '',
+  priority = false,
+  objectFit = 'cover',
+  width,
+  height,
+  sizes,
+  children,
+}) {
   const [isLoaded, setIsLoaded] = useState(false)
 
   return (
@@ -12,7 +23,11 @@ export default function ImageSkeleton({ src, alt, className = '', wrapperClassNa
         src={src}
         alt={alt}
         onLoad={() => setIsLoaded(true)}
-        fetchpriority={priority ? 'high' : 'auto'}
+        width={width}
+        height={height}
+        sizes={sizes}
+        decoding={priority ? 'sync' : 'async'}
+        fetchPriority={priority ? 'high' : 'auto'}
         loading={priority ? 'eager' : 'lazy'}
         style={{ objectFit }}
         className={`h-full w-full transition-opacity duration-700 ease-in-out ${

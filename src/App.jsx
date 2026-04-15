@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import AboutPage from './components/AboutPage'
 import HomePage from './components/HomePage'
+import ShopPage from './components/ShopPage'
 import SiteFooter from './components/SiteFooter'
 import SiteNavbar from './components/SiteNavbar'
+import { applyRouteSeo } from './seo'
 import { whatsappLink } from './site'
 
-const KNOWN_PATHS = new Set(['/', '/nosotros'])
+const KNOWN_PATHS = new Set(['/', '/nosotros', '/shop'])
 
 function normalizePathname(pathname) {
   const trimmedPath = pathname.replace(/\/+$/, '')
@@ -50,7 +52,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (route.pathname === '/nosotros') {
+    if (route.pathname === '/nosotros' || route.pathname === '/shop') {
       window.scrollTo({ top: 0, behavior: 'auto' })
       return
     }
@@ -67,6 +69,10 @@ function App() {
       target.scrollIntoView({ behavior: 'smooth', block: 'start' })
     })
   }, [route])
+
+  useEffect(() => {
+    applyRouteSeo(route.pathname)
+  }, [route.pathname])
 
   const handleNavigate = (pathname, hash = '') => {
     const nextPathname = KNOWN_PATHS.has(normalizePathname(pathname))
@@ -98,11 +104,12 @@ function App() {
   }
 
   const isAboutPage = route.pathname === '/nosotros'
+  const isShopPage = route.pathname === '/shop'
 
   return (
     <>
       <SiteNavbar route={route} onNavigate={handleNavigate} />
-      {isAboutPage ? <AboutPage /> : <HomePage />}
+      {isAboutPage ? <AboutPage /> : isShopPage ? <ShopPage /> : <HomePage />}
       <SiteFooter />
 
       <a

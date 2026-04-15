@@ -7,6 +7,7 @@ const LOGO_IMAGE = '/assets/logo-electro-rlf.png'
 const NAV_LINKS = [
   { label: 'Home', path: '/', hash: 'inicio' },
   { label: 'Nosotros', path: '/nosotros', hash: '' },
+  { label: 'Shop', path: '/shop', hash: '', badge: 'Prox.' },
 ]
 
 function buildHref({ path, hash }) {
@@ -24,8 +25,8 @@ function isPlainLeftClick(event) {
 }
 
 function isLinkActive(link, route) {
-  if (link.path === '/nosotros') {
-    return route.pathname === '/nosotros'
+  if (link.path !== '/') {
+    return route.pathname === link.path
   }
 
   if (route.pathname !== '/') {
@@ -64,7 +65,10 @@ export default function SiteNavbar({ route, onNavigate }) {
           >
             <img
               src={LOGO_IMAGE}
-              alt="Electro RLF"
+              alt="Electro RLF - ferretería eléctrica en Resistencia"
+              width={855}
+              height={263}
+              decoding="async"
               className="h-[36px] w-[118px] object-contain md:h-[42px] md:w-[138px]"
             />
           </a>
@@ -78,13 +82,18 @@ export default function SiteNavbar({ route, onNavigate }) {
                   <a
                     href={buildHref(link)}
                     onClick={(event) => handleNavigation(event, link)}
-                    className={`font-sans text-[14px] font-bold tracking-[-0.025em] transition-colors hover:text-[#fff212] ${
+                    className={`inline-flex items-center gap-2 font-sans text-[14px] font-bold tracking-[-0.025em] transition-colors hover:text-[#fff212] ${
                       isActive
                         ? 'border-b-2 border-[#fff212] pb-1.5 text-[#fff212]'
                         : 'border-b-2 border-transparent pb-1.5 text-[#e2e2e2b8]'
                     }`}
                   >
-                    {link.label}
+                    <span>{link.label}</span>
+                    {link.badge ? (
+                      <span className="rounded-[6px] border border-[#fff2124d] bg-[#fff21214] px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-[0.08em] text-[#fff212]">
+                        {link.badge}
+                      </span>
+                    ) : null}
                   </a>
                 </li>
               )
@@ -150,7 +159,14 @@ export default function SiteNavbar({ route, onNavigate }) {
                             : 'text-white hover:text-[#fff212]'
                         }`}
                       >
-                        {link.label}
+                        <span className="inline-flex items-center gap-2">
+                          {link.label}
+                          {link.badge ? (
+                            <span className="rounded-[6px] border border-[#fff2124d] bg-[#fff21214] px-2 py-0.5 text-[9px] font-extrabold uppercase tracking-[0.08em] text-[#fff212]">
+                              {link.badge}
+                            </span>
+                          ) : null}
+                        </span>
                       </a>
                     </li>
                   )

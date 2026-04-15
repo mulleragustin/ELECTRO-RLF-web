@@ -10,7 +10,7 @@ export const SITE = {
   tagline: 'Ferretería Eléctrica & Servicios',
   whatsapp: '3624866272',
   instagram: 'https://www.instagram.com/electrorlf',
-  facebook: 'https://www.facebook.com/ferreteria.electro.rlf',
+  facebook: 'https://www.facebook.com/electroRLF',
   branches: [
     'Hipólito Yrigoyen 715',
     'Juan Ramón Lestani 649',

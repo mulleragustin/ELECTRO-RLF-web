@@ -1,3 +1,4 @@
+import { createElement } from 'react'
 import {
   Package,
   MessageSquare,
@@ -10,10 +11,13 @@ import SectionLabel from './ui/SectionLabel'
 import SectionTitle from './ui/SectionTitle'
 import ImageSkeleton from './ui/ImageSkeleton'
 
-const HERO_IMAGE = '/assets/about-hero.png'
-const DETAIL_IMAGE = '/assets/about-detail.png'
-const MULTIMETER_IMAGE = '/assets/about-multimeter.png'
-const ROOM_IMAGE = '/assets/about-room.png'
+const HERO_IMAGE = '/assets/seo/negocio-electro-rlf-resistencia-chaco.jpg'
+const DETAIL_IMAGE =
+  '/assets/seo/materiales-electricos-electro-rlf-resistencia.jpg'
+const MULTIMETER_IMAGE =
+  '/assets/seo/medicion-electrica-multimetro-electro-rlf.jpg'
+const ROOM_IMAGE =
+  '/assets/seo/instalacion-electrica-residencial-resistencia.jpg'
 
 const ABOUT_CTA_MESSAGE = encodeURIComponent(
   'Hola! Quiero consultar por un proyecto o una urgencia electrica.',
@@ -61,31 +65,22 @@ const DIFFERENCES = [
 export default function AboutPage() {
   return (
     <main className="bg-black">
-      <section className="relative overflow-hidden border-b border-[#4a47321a] bg-black pb-20 pt-16 md:pb-28 md:pt-24 lg:pb-32 lg:pt-28">
-        {/* Ambient orbs */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute -right-[200px] -top-[200px] h-[700px] w-[700px] rounded-full bg-[#fff212] opacity-[0.18] blur-[100px]" />
-          <div className="absolute -left-[100px] bottom-[-50px] h-[500px] w-[500px] rounded-full bg-[#fff212] opacity-[0.1] blur-[90px]" />
-        </div>
-        {/* Noise grain */}
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.07]"
-          style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\")", backgroundSize: '200px 200px' }}
-        />
+      <section className="relative overflow-hidden border-b border-[#4a47321a] bg-rlf-hero-right pb-16 pt-14 md:pb-16 md:pt-16 lg:pb-14 lg:pt-16 xl:pb-12">
+        <div className="pointer-events-none absolute inset-0 bg-rlf-noise opacity-[0.07]" />
         <div className="container-section relative z-10">
-          <SectionLabel>
-            sobre nosotros
-          </SectionLabel>
+          <div className="grid gap-10 md:grid-cols-[1fr_340px] md:items-start md:gap-10 lg:grid-cols-[minmax(0,1fr)_500px] lg:gap-12 xl:grid-cols-[minmax(0,1fr)_560px] xl:gap-16">
+            <div className="flex flex-col gap-[31px]">
+              <SectionLabel>
+                sobre nosotros
+              </SectionLabel>
 
-          <div className="mt-10 grid gap-12 md:min-h-[720px] md:grid-cols-[1fr_348px] md:items-center md:gap-10 lg:grid-cols-[1fr_420px] lg:gap-12 xl:grid-cols-[576px_536px] xl:justify-between xl:gap-16">
-            <div className="flex flex-col">
               <h1 className="max-w-[683px] text-[40px] font-extrabold leading-[1.1] tracking-[-1.6px] text-white md:text-[64px] md:tracking-[-2px] xl:text-[88px] xl:tracking-[-2.4px]">
                 <span className="block">Tu aliado</span>
                 <span className="block">en cada</span>
                 <span className="block italic text-[#fff212]">proyecto</span>
               </h1>
 
-              <div className="mt-8 max-w-[576px] space-y-6 text-[18px] font-medium leading-[1.55] text-[#ccc7ab] md:text-[20px] md:leading-[32.5px]">
+              <div className="max-w-[576px] space-y-6 text-[18px] font-medium leading-[1.55] text-[#ccc7ab] md:text-[20px] md:leading-[32.5px]">
                 <p>
                   En ELECTRO RLF nacimos con un objetivo claro: hacer que las
                   soluciones eléctricas para casas y departamentos sean
@@ -113,8 +108,11 @@ export default function AboutPage() {
               <div className="aspect-[3/4] w-full overflow-hidden rounded-2xl border border-[#4a47324d] bg-[#131313] md:aspect-auto">
                 <ImageSkeleton
                   src={HERO_IMAGE}
-                  alt="Electricista a domicilio Resistencia: Técnico trabajando en un tablero, venta de materiales eléctricos Resistencia Chaco"
+                  alt="Negocio Electro RLF con materiales eléctricos y atención personalizada en Resistencia Chaco"
                   priority={true}
+                  width={1100}
+                  height={1383}
+                  sizes="(min-width: 1280px) 536px, (min-width: 768px) 400px, 100vw"
                   className="h-full w-full max-w-[536px] object-cover md:h-[540px] lg:h-[620px] xl:h-[718px]"
                 />
               </div>
@@ -132,22 +130,16 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section
-        className="relative overflow-hidden border-y border-[#4a47321a] py-20 md:py-28 lg:py-[120px]"
-        style={{
-          backgroundImage: `linear-gradient(rgba(255,242,18,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,242,18,0.08) 1px, transparent 1px), linear-gradient(#131313, #131313)`,
-          backgroundSize: '60px 60px, 60px 60px, 100%',
-        }}
-      >
-        {/* Fade top/bottom to hide grid at edges */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#131313] via-transparent to-[#131313]" />
+      <section className="relative overflow-hidden border-y border-[#4a47321a] bg-rlf-grid py-20 md:py-28 lg:py-[120px]">
+        <div className="section-cutline" />
+        <div className="pointer-events-none absolute inset-0 bg-rlf-grid-fade" />
         <div className="container-section relative z-10 flex flex-col gap-16 lg:gap-20 xl:gap-[80px]">
           <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
             <div className="max-w-[576px]">
               <p className="text-[48px] font-extrabold leading-none tracking-[-2.4px] text-[#fff212]">
                 01 /
               </p>
-              <SectionTitle className="mt-2 uppercase">
+              <SectionTitle className="mt-2 max-w-[680px]">
                 Nuestra filosofía de trabajo
               </SectionTitle>
               <p className="mt-4 text-[16px] leading-6 text-[#ccc7ab]">
@@ -171,18 +163,15 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-black py-20 md:py-28 lg:py-[120px]">
-        {/* Left ambient glow */}
-        <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="animate-orb-float absolute -left-[100px] top-1/4 h-[800px] w-[800px] rounded-full bg-[#fff212] opacity-[0.1] blur-[130px]" />
-        </div>
+      <section className="relative overflow-hidden bg-rlf-wash-left py-20 md:py-28 lg:py-[120px]">
+        <div className="section-cutline" />
         <div className="container-section relative z-10">
           <div className="grid gap-16 md:grid-cols-[1fr_1fr] md:items-start md:gap-10 lg:gap-14 xl:grid-cols-[568px_568px] xl:justify-between xl:gap-20">
             <div>
               <p className="text-[32px] font-extrabold leading-none tracking-[-1px] text-[#fff212] md:text-[48px] md:tracking-[-2.4px]">
                 02 /
               </p>
-              <SectionTitle className="mt-4 uppercase md:mt-2">
+              <SectionTitle className="mt-4 max-w-[680px] md:mt-2">
                 &iquest;Qué nos hace diferentes?
               </SectionTitle>
 
@@ -206,17 +195,21 @@ export default function AboutPage() {
                 <div className="overflow-hidden rounded-xl border border-[#4a473233] bg-[#1b1b1b]">
                   <img
                     src={DETAIL_IMAGE}
-                    alt="Materiales eléctricos Resistencia Chaco: Detalle técnico de componentes"
+                    alt="Herramientas e insumos eléctricos disponibles en Electro RLF Resistencia"
+                    width={650}
+                    height={655}
+                    loading="lazy"
+                    decoding="async"
                     className="h-[274px] w-full object-cover grayscale"
                   />
                 </div>
 
                 <div className="rounded-xl border border-[#fff21233] bg-[#fff2120d] px-[33px] py-[76px]">
                   <p className="text-[30px] font-extrabold text-[#fff212]">
-                    500+
+                    Personal
                   </p>
                   <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[#fff212]">
-                    Hogares intervenidos
+                    capacitado
                   </p>
                 </div>
               </div>
@@ -225,7 +218,11 @@ export default function AboutPage() {
                 <div className="overflow-hidden rounded-xl border border-[#4a473233] bg-[#1b1b1b]">
                   <img
                     src={MULTIMETER_IMAGE}
-                    alt="Multímetro profesional: Electricista residencial rápido Resistencia"
+                    alt="Medición eléctrica profesional con multímetro para instalaciones residenciales"
+                    width={650}
+                    height={808}
+                    loading="lazy"
+                    decoding="async"
                     className="h-[366px] w-full object-cover grayscale"
                   />
                 </div>
@@ -233,7 +230,11 @@ export default function AboutPage() {
                 <div className="overflow-hidden rounded-xl border border-[#4a473233] bg-[#1b1b1b]">
                   <img
                     src={ROOM_IMAGE}
-                    alt="Iluminación residencial, dónde comprar luces LED baratas"
+                    alt="Instalación eléctrica residencial en Resistencia Chaco"
+                    width={650}
+                    height={655}
+                    loading="lazy"
+                    decoding="async"
                     className="h-[274px] w-full object-cover grayscale"
                   />
                 </div>
@@ -243,10 +244,12 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-black pb-20 md:pb-28 lg:pb-[120px]">
-        <div className="container-section">
+      <section className="relative overflow-hidden bg-rlf-panel py-20 md:py-28 lg:py-[120px]">
+        <div className="section-top-wash" />
+        <div className="section-cutline" />
+        <div className="container-section relative z-10">
           <div className="mx-auto max-w-[1024px] rounded-2xl border border-[#4a47324d] bg-[#131313] px-6 py-12 text-center md:px-12 md:py-20 lg:p-[81px]">
-            <h2 className="text-[28px] font-extrabold uppercase leading-[1.1] tracking-[-0.5px] text-white md:text-[40px] md:tracking-[1.4px] xl:text-[48px] xl:leading-[48px] xl:tracking-[3px]">
+            <h2 className="mx-auto max-w-[780px] text-[32px] font-extrabold leading-[1.1] tracking-[-1.2px] text-white md:text-[48px] md:tracking-[-2px] xl:text-[56px] xl:tracking-[-2.6px]">
               <span className="block">&iquest;Tenés una urgencia o un</span>
               <span className="block">proyecto en mente?</span>
             </h2>
@@ -273,11 +276,11 @@ export default function AboutPage() {
   )
 }
 
-function PhilosophyCard({ title, description, icon: Icon }) {
+function PhilosophyCard({ title, description, icon }) {
   return (
     <article className="rounded-2xl border border-[#4a47321a] bg-[#1b1b1b] p-8 md:min-h-[238px] lg:p-10">
       <div className="flex size-14 items-center justify-center rounded-xl bg-black text-[#fff212]">
-        <Icon className="size-[22px]" />
+        {createElement(icon, { className: 'size-[22px]' })}
       </div>
 
       <h3 className="mt-6 text-[18px] font-bold uppercase leading-7 text-white">

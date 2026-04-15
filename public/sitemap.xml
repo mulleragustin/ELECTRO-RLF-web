@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://electrorlf.com/</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://electrorlf.com/assets/seo/ferreteria-electrica-resistencia-electro-rlf.jpg</image:loc>
+      <image:title>Ferretería eléctrica Electro RLF en Resistencia</image:title>
+      <image:caption>Venta de materiales eléctricos y servicios residenciales en Resistencia, Chaco.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://electrorlf.com/nosotros</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://electrorlf.com/assets/seo/negocio-electro-rlf-resistencia-chaco.jpg</image:loc>
+      <image:title>Negocio Electro RLF en Resistencia Chaco</image:title>
+      <image:caption>Atención personalizada, materiales certificados y servicios eléctricos residenciales.</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://electrorlf.com/shop</loc>
+    <lastmod>2026-04-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://electrorlf.com/assets/seo/kit-herramientas-insumos-electricos-electro-rlf.jpg</image:loc>
+      <image:title>Kits e insumos eléctricos Electro RLF</image:title>
+      <image:caption>Compras coordinadas por WhatsApp y retiro en la sede más cercana.</image:caption>
+    </image:image>
+  </url>
+</urlset>

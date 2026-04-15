@@ -10,10 +10,31 @@ export function whatsappLink(msg = WHATSAPP_MSG) {
 
 export const SITE = {
   name: 'ELECTRO RLF',
-  tagline: 'Ferreteria Electrica & Servicios',
+  baseUrl: 'https://electrorlf.com',
+  tagline: 'Ferretería eléctrica & servicios',
+  description:
+    'Venta de materiales eléctricos, ferretería eléctrica y servicios residenciales en Resistencia, Chaco.',
   whatsapp: '3624866272',
+  whatsappFull: '+5493624866272',
+  email: 'ventas@electrorlf.com',
   instagram: 'https://www.instagram.com/electrorlf',
   instagramHandle: '@ELECTRORLF',
-  facebook: 'https://www.facebook.com/ferreteria.electro.rlf',
-  branches: ['Hipólito Yrigoyen 715 - Juan Ramón Lestani 649'],
+  facebook: 'https://www.facebook.com/electroRLF',
+  branches: ['Hipólito Yrigoyen 715', 'Juan Ramón Lestani 649'],
+  locations: [
+    {
+      name: 'Sede Hipólito Yrigoyen',
+      streetAddress: 'Hipólito Yrigoyen 715',
+      addressLocality: 'Resistencia',
+      addressRegion: 'Chaco',
+      addressCountry: 'AR',
+    },
+    {
+      name: 'Sede Juan Ramón Lestani',
+      streetAddress: 'Juan Ramón Lestani 649',
+      addressLocality: 'Resistencia',
+      addressRegion: 'Chaco',
+      addressCountry: 'AR',
+    },
+  ],
 }

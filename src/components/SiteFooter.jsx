@@ -39,8 +39,9 @@ function FacebookIcon(props) {
 
 export default function SiteFooter() {
   return (
-    <footer className="bg-[#0a0a0a] py-20 text-[14px] md:py-28 lg:pb-24 lg:pt-32">
-      <div className="container-section">
+    <footer className="relative overflow-hidden bg-rlf-footer py-20 text-[14px] md:py-28 lg:pb-24 lg:pt-32">
+      <div className="section-cutline" />
+      <div className="container-section relative z-10">
         <div className="grid gap-16 md:grid-cols-3 lg:gap-24 xl:gap-32">
           {/* Column 1 */}
           <div className="max-w-[320px]">
@@ -61,11 +62,20 @@ export default function SiteFooter() {
             <ul className="space-y-4 font-medium text-[#e2e2e2b3]">
               <li className="flex items-start gap-4">
                 <MapPin className="mt-[2px] size-[18px] shrink-0 text-[#fff212]" />
-                <span>
-                  {SITE.branches[0]}
-                  <br />
-                  Resistencia, Chaco
-                </span>
+                <div className="space-y-4">
+                  {SITE.branches.map((branch, index) => (
+                    <div key={branch}>
+                      <p className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-[#fff212]">
+                        Sede {index + 1}
+                      </p>
+                      <p className="mt-1 leading-relaxed">
+                        {branch}
+                        <br />
+                        Resistencia, Chaco
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </li>
               <li className="flex items-center gap-4">
                 <Phone className="size-[18px] shrink-0 text-[#fff212]" />
@@ -79,10 +89,10 @@ export default function SiteFooter() {
               <li className="flex items-center gap-4">
                 <Mail className="size-[18px] shrink-0 text-[#fff212]" />
                 <a
-                  href="mailto:ventas@electrorlf.com"
+                  href={`mailto:${SITE.email}`}
                   className="transition-colors hover:text-white"
                 >
-                  ventas@electrorlf.com
+                  {SITE.email}
                 </a>
               </li>
             </ul>
@@ -117,7 +127,7 @@ export default function SiteFooter() {
         </div>
       </div>
 
-      <div className="container-section mt-20 md:mt-28 lg:mt-32">
+      <div className="container-section relative z-10 mt-20 md:mt-28 lg:mt-32">
         <div className="flex flex-col items-center justify-between gap-8 border-t border-[#ffffff1a] pt-8 md:flex-row lg:pt-12">
           <p className="text-[12px] font-medium text-[#e2e2e2b3]">
             &copy; 2026 {SITE.name}. Todos los derechos reservados.
@@ -134,7 +144,11 @@ export default function SiteFooter() {
             >
               <img
                 src="/Icon-tiny.svg"
-                alt="Tiny Studio Logo"
+                alt="Tiny Studio"
+                width={18}
+                height={18}
+                loading="lazy"
+                decoding="async"
                 className="h-[18px]"
               />
             </a>

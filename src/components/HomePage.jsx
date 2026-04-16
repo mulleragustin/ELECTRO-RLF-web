@@ -100,9 +100,8 @@ export default function HomePage() {
                 className="max-w-[683px] text-[40px] font-extrabold leading-[1.1] tracking-[-1.6px] text-white md:text-[64px] md:tracking-[-2px] xl:text-[88px] xl:tracking-[-2.4px]"
               >
                 <span className="block">
-                  Todo para tu <span className="italic text-[#fff212]">obra</span> y tu
+                  Tu ferreteria de <span className="italic text-[#fff212]">confianza</span>.
                 </span>
-                <span className="italic text-[#fff212]">hogar</span>.
               </h1>
 
               <div

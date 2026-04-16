@@ -192,7 +192,7 @@ export default function HomePage() {
               <div className="max-w-[448px]">
                 <UserCog className="size-10 text-[#fff212]" />
 
-                <h3 className="mt-8 text-[30px] font-extrabold uppercase leading-[36px] tracking-[-0.75px] text-white">
+                <h3 className="mt-8 text-[30px] font-extrabold leading-[36px] tracking-[-0.75px] text-white">
                   <span className="block">Electricista a</span>
                   <span className="block">domicilio y</span>
                   <span className="block">mantenimiento</span>
@@ -221,7 +221,7 @@ export default function HomePage() {
             >
               <div>
                 <ShoppingCart className="size-10 text-[#fff212]" />
-                <h3 className="mt-6 text-[24px] font-extrabold uppercase leading-[30px] text-white">
+                <h3 className="mt-6 text-[24px] font-extrabold leading-[30px] text-white">
                   Kits a medida
                 </h3>
                 <p className="mt-4 text-[14px] font-medium leading-[1.6] text-[#ccc7ab]">
@@ -286,7 +286,7 @@ function ServiceMiniCard({ title, description, icon, watermark }) {
 
       {createElement(icon, { className: 'size-7 text-[#fff212]' })}
 
-      <h3 className="mt-6 text-[20px] font-extrabold uppercase leading-7 text-white">
+      <h3 className="mt-6 text-[20px] font-extrabold leading-7 text-white">
         {title}
       </h3>
 
@@ -304,7 +304,7 @@ function DifferentialCard({ title, description, icon }) {
         {createElement(icon, { className: 'size-8' })}
       </div>
 
-      <h3 className="mt-10 text-[24px] font-extrabold uppercase leading-8 text-white">
+      <h3 className="mt-10 text-[24px] font-extrabold leading-8 text-white">
         {title.map((line) => (
           <span key={line} className="block">
             {line}

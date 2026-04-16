@@ -53,7 +53,7 @@ export default function ShopPage() {
                 </p>
               </div>
 
-              <h2 className="mt-8 text-[26px] font-extrabold uppercase leading-[1.15] text-white md:text-[34px]">
+              <h2 className="mt-8 text-[26px] font-extrabold leading-[1.15] text-white md:text-[34px]">
                 Eleg&iacute; la sede que te quede m&aacute;s cerca
               </h2>
 

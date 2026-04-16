@@ -113,7 +113,7 @@ export default function AboutPage() {
                   width={1100}
                   height={1383}
                   sizes="(min-width: 1280px) 536px, (min-width: 768px) 400px, 100vw"
-                  className="h-full w-full max-w-[536px] object-cover md:h-[540px] lg:h-[620px] xl:h-[718px]"
+                  className="h-full w-full object-cover md:h-[540px] lg:h-[620px] xl:h-[718px]"
                 />
               </div>
 
@@ -179,7 +179,7 @@ export default function AboutPage() {
                 {DIFFERENCES.map((item) => (
                   <div key={item.title} className="relative pl-8">
                     <span className="absolute inset-y-0 left-0 w-1 bg-[#fff212]" />
-                    <h3 className="text-[18px] font-bold uppercase leading-7 text-white">
+                    <h3 className="text-[18px] font-bold leading-7 text-white">
                       {item.title}
                     </h3>
                     <p className="mt-2 text-[14px] leading-[22.75px] text-[#ccc7ab]">
@@ -283,7 +283,7 @@ function PhilosophyCard({ title, description, icon }) {
         {createElement(icon, { className: 'size-[22px]' })}
       </div>
 
-      <h3 className="mt-6 text-[18px] font-bold uppercase leading-7 text-white">
+      <h3 className="mt-6 text-[18px] font-bold leading-7 text-white">
         {title}
       </h3>
 

@@ -1,4 +1,4 @@
-import { createElement } from 'react'
+import { createElement, useRef } from 'react'
 import {
   ArrowRight,
   ShoppingCart,
@@ -17,6 +17,7 @@ import Button from './ui/Button'
 import SectionLabel from './ui/SectionLabel'
 import SectionTitle from './ui/SectionTitle'
 import ImageSkeleton from './ui/ImageSkeleton'
+import useScrollAnimations from '../hooks/useScrollAnimations'
 
 const HERO_IMAGE =
   '/assets/seo/ferreteria-electrica-resistencia-electro-rlf.jpg'
@@ -82,8 +83,12 @@ const MARQUEE_BRANDS = [
 ]
 
 export default function HomePage() {
+  const mainRef = useRef(null)
+  useScrollAnimations(mainRef)
+
   return (
-    <main className="bg-black">
+    <main ref={mainRef} className="bg-black">
+      {/* ── Hero ── */}
       <section
         id="inicio"
         className="relative overflow-hidden border-b border-[#4a47321a] bg-rlf-hero-left pb-16 pt-14 md:pb-16 md:pt-16 lg:pb-14 lg:pt-16 xl:pb-12"
@@ -92,37 +97,37 @@ export default function HomePage() {
         <div className="container-section relative z-10">
           <div className="grid gap-10 md:grid-cols-[1fr_340px] md:items-start md:gap-10 lg:grid-cols-[minmax(0,1fr)_500px] lg:gap-12 xl:grid-cols-[minmax(0,1fr)_560px] xl:gap-16">
             <div className="flex flex-col gap-[31px]">
-              <SectionLabel>
-                Ferretería eléctrica & servicios
-              </SectionLabel>
-
-              <h1 className="max-w-[683px] text-[40px] font-extrabold leading-[1.1] tracking-[-1.6px] text-white md:text-[64px] md:tracking-[-2px] xl:text-[88px] xl:tracking-[-2.4px]">
-                <span className="block">Ferretería</span>
-                <span className="block">
-                  <span className="italic text-[#fff212]">eléctrica</span> en
-                </span>
-                <span className="block">Resistencia.</span>
-              </h1>
-
-              <div className="max-w-[576px] text-[18px] font-medium leading-[1.55] text-[#e2e2e2cc] md:text-[20px] md:leading-[32.5px]">
-                <p>Venta de materiales eléctricos en Resistencia Chaco</p>
-                <p>y Electricista a domicilio rápido para tu hogar.</p>
-                <p>Armado de tableros eléctricos para viviendas y</p>
-                <p>presupuesto de instalación eléctrica para casa al instante.</p>
+              <div data-animate="hero">
+                <SectionLabel>
+                  Electricidad · Hogar · Construcción
+                </SectionLabel>
               </div>
 
-              <Button
-                href={whatsappLink(HOME_CTA_MESSAGE)}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <MessageSquare className="size-5" />
-                Contacto por WhatsApp
-              </Button>
+              <h1 data-animate="hero" className="max-w-[683px] text-[40px] font-extrabold leading-[1.1] tracking-[-1.6px] text-white md:text-[64px] md:tracking-[-2px] xl:text-[88px] xl:tracking-[-2.4px]">
+                <span className="block">Todo para tu <span className="italic text-[#fff212]">obra</span> y</span>
+                <span className="block">tu casa en Resistencia.</span>
+              </h1>
+
+              <div data-animate="hero" className="max-w-[576px] text-[18px] font-medium leading-[1.55] text-[#e2e2e2cc] md:text-[20px] md:leading-[32.5px]">
+                <p>Materiales eléctricos, herramientas y productos</p>
+                <p>para el hogar y la construcción. Todo en un solo</p>
+                <p>lugar, en Resistencia, Chaco.</p>
+              </div>
+
+              <div data-animate="hero">
+                <Button
+                  href={whatsappLink(HOME_CTA_MESSAGE)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <MessageSquare className="size-5" />
+                  Contacto por WhatsApp
+                </Button>
+              </div>
             </div>
 
             <div className="relative mx-auto w-full max-w-[560px] md:mx-0 md:ml-auto md:h-[460px] lg:h-[500px] xl:h-[520px]">
-              <div className="mx-auto w-full max-w-[320px] md:absolute md:right-0 md:top-0 md:mx-0 md:max-w-none">
+              <div data-animate="hero-image" className="mx-auto w-full max-w-[320px] md:absolute md:right-0 md:top-0 md:mx-0 md:max-w-none">
                 <div className="aspect-square w-full overflow-hidden rounded-lg border border-[#fff21233] bg-[#131313] md:size-[340px] lg:size-[390px] xl:size-[430px]">
                   <ImageSkeleton
                     src={HERO_IMAGE}
@@ -139,14 +144,14 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="relative z-20 mt-6 max-w-[260px] rounded-lg border border-[#fff21233] bg-[#131313]/90 p-7 text-white shadow-[0_20px_40px_rgba(0,0,0,0.5)] backdrop-blur-md md:absolute md:bottom-0 md:left-[72px] md:mt-0 md:p-9 lg:left-[96px] xl:left-[118px]">
+              <div data-animate="hero-card" className="relative z-20 mt-6 max-w-[260px] rounded-lg border border-[#fff21233] bg-[#131313]/90 p-7 text-white shadow-[0_20px_40px_rgba(0,0,0,0.5)] backdrop-blur-md md:absolute md:bottom-0 md:left-[72px] md:mt-0 md:p-9 lg:left-[96px] xl:left-[118px]">
                 <div className="flex items-center gap-3 text-[14px] font-extrabold uppercase tracking-[-0.05em] text-[#fff212]">
                   <ShieldCheck className="size-5" />
-                  <span>Productos de calidad</span>
+                  <span>Marcas líderes del mercado</span>
                 </div>
                 <p className="mt-3 text-[13px] font-medium leading-[1.4] text-[#ccc7ab]">
-                  Seguridad eléctrica garantizada bajo estándares internacionales
-                  en cada componente.
+                  Sica, Klaukol, Sekur y más. Calidad garantizada en cada
+                  producto.
                 </p>
               </div>
             </div>
@@ -154,7 +159,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="overflow-hidden border-y border-[#fff21226] bg-rlf-brand-strip py-4 md:py-5">
+      {/* ── Brand marquee ── */}
+      <section data-animate="fade-up" className="overflow-hidden border-y border-[#fff21226] bg-rlf-brand-strip py-4 md:py-5">
         <div className="relative flex">
           <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-[#080808] to-transparent md:w-32" />
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-[#080808] to-transparent md:w-32" />
@@ -178,17 +184,18 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── Services ── */}
       <section id="servicios" className="relative overflow-hidden bg-rlf-wash-right py-20 md:py-28 lg:py-32">
         <div className="section-cutline" />
         <div className="container-section relative z-10 flex flex-col gap-24">
-          <header>
+          <header data-animate="title">
             <SectionTitle className="max-w-[1216px]">
               Todo lo que tu casa necesita
             </SectionTitle>
           </header>
 
           <div className="grid gap-6 md:grid-cols-[1.85fr_1fr] md:items-stretch xl:grid-cols-[792px_400px] xl:justify-between">
-            <article className="rounded-2xl border border-[#fff21226] bg-[#131313] p-8 md:min-h-[420px] lg:p-12">
+            <article data-animate="fade-right" className="rounded-2xl border border-[#fff21226] bg-[#131313] p-8 md:min-h-[420px] lg:p-12">
               <div className="max-w-[448px]">
                 <UserCog className="size-10 text-[#fff212]" />
 
@@ -217,6 +224,7 @@ export default function HomePage() {
 
             <article
               id="productos"
+              data-animate="fade-left"
               className="flex scroll-mt-24 flex-col justify-between overflow-hidden rounded-2xl border border-[#fff21226] bg-[#131313] p-8 text-white md:min-h-[420px] lg:p-12"
             >
               <div>
@@ -239,12 +247,13 @@ export default function HomePage() {
                   loading="lazy"
                   decoding="async"
                   className="h-full w-full object-cover"
+                  data-animate="parallax"
                 />
               </div>
             </article>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-3 xl:grid-cols-[389px_389px_390px] xl:justify-between">
+          <div data-animate="stagger-up" className="grid gap-6 md:grid-cols-3 xl:grid-cols-[389px_389px_390px] xl:justify-between">
             {SMALL_SERVICE_CARDS.map((card) => (
               <ServiceMiniCard key={card.title} {...card} />
             ))}
@@ -252,18 +261,19 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── Differentials ── */}
       <section className="relative overflow-hidden bg-rlf-grid py-20 md:py-28 lg:py-32">
         <div className="section-cutline" />
         <div className="pointer-events-none absolute inset-0 bg-rlf-grid-fade" />
         <div className="container-section relative z-10 flex flex-col gap-24">
-          <header className="text-center">
+          <header data-animate="title" className="text-center">
             <SectionTitle>
               &iquest;Por qu&eacute; nos eligen?
             </SectionTitle>
           </header>
 
-          <div className="overflow-hidden rounded-2xl border border-[#4a473233] bg-[#4a473233] p-px">
-            <div className="grid gap-px md:grid-cols-3 xl:grid-cols-[405px_405px_404px] xl:justify-between">
+          <div data-animate="scale-in" className="overflow-hidden rounded-2xl border border-[#4a473233] bg-[#4a473233] p-px">
+            <div data-animate="stagger-up" className="grid gap-px md:grid-cols-3 xl:grid-cols-[405px_405px_404px] xl:justify-between">
               {DIFFERENTIALS.map((item) => (
                 <DifferentialCard key={item.title.join(' ')} {...item} />
               ))}

@@ -1,104 +1,103 @@
-import { SITE } from './site'
+import { SITE } from "./site";
 
-const HOME_IMAGE = `${SITE.baseUrl}/assets/seo/ferreteria-electrica-resistencia-electro-rlf.jpg`
-const ABOUT_IMAGE = `${SITE.baseUrl}/assets/seo/negocio-electro-rlf-resistencia-chaco.jpg`
-const SHOP_IMAGE = `${SITE.baseUrl}/assets/seo/kit-herramientas-insumos-electricos-electro-rlf.jpg`
-const OG_IMAGE = `${SITE.baseUrl}/assets/seo/electro-rlf-ferreteria-electrica-resistencia-og.jpg`
+const HOME_IMAGE = `${SITE.baseUrl}/assets/seo/ferreteria-electrica-resistencia-electro-rlf.jpg`;
+const ABOUT_IMAGE = `${SITE.baseUrl}/assets/seo/negocio-electro-rlf-resistencia-chaco.jpg`;
+const SHOP_IMAGE = `${SITE.baseUrl}/assets/seo/kit-herramientas-insumos-electricos-electro-rlf.jpg`;
+const OG_IMAGE = `${SITE.baseUrl}/assets/seo/electro-rlf-ferreteria-electrica-resistencia-og.jpg`;
 
 const ROUTE_SEO = {
-  '/': {
-    title: 'Ferretería eléctrica en Resistencia | ELECTRO RLF',
+  "/": {
+    title: "Ferretería eléctrica en Resistencia | ELECTRO RLF",
     description:
-      'Venta de materiales eléctricos, armado de tableros y electricista a domicilio en Resistencia, Chaco. Coordiná por WhatsApp o retirá por la sede más cercana.',
-    canonicalPath: '/',
+      "Venta de materiales, eléctricicidad, armado de tableros, todo lo que necesitas para tu hogar o tu obra. Coordiná por WhatsApp, retirá por el local mas cercano en Resistencia, Chaco.",
+    canonicalPath: "/",
     image: HOME_IMAGE,
     ogImage: OG_IMAGE,
-    imageWidth: '1200',
-    imageHeight: '630',
-    imageAlt: 'Ferretería eléctrica Electro RLF en Resistencia, Chaco',
+    imageWidth: "1200",
+    imageHeight: "630",
+    imageAlt: "Ferretería eléctrica Electro RLF en Resistencia, Chaco",
   },
-  '/nosotros': {
-    title: 'Sobre ELECTRO RLF | Materiales eléctricos y servicios en Resistencia',
+  "/nosotros": {
+    title:
+      "Sobre ELECTRO RLF | Materiales, eléctricicidad y todo lo que necestas para tu obra u hogar en Resistencia",
     description:
-      'Conocé ELECTRO RLF: atención personalizada, materiales certificados y servicios eléctricos residenciales en zona sur y centro de Resistencia, Chaco.',
-    canonicalPath: '/nosotros',
+      "Conocé ELECTRO RLF: atención personalizada, herramientas y materiales certificados; en el centro de Resistencia, Chaco.",
+    canonicalPath: "/nosotros",
     image: ABOUT_IMAGE,
     ogImage: OG_IMAGE,
-    imageWidth: '1200',
-    imageHeight: '630',
-    imageAlt: 'Negocio Electro RLF con atención personalizada en Resistencia',
+    imageWidth: "1200",
+    imageHeight: "630",
+    imageAlt: "Negocio Electro RLF con atención personalizada en Resistencia",
   },
-  '/shop': {
-    title: 'Shop Electro RLF próximamente | Compras por WhatsApp en Resistencia',
+  "/shop": {
+    title: "Shop Electro RLF próximamente | Compras por WhatsApp en Resistencia",
     description:
-      'El shop online de ELECTRO RLF está en preparación. Coordiná tu compra por WhatsApp y retirala en Hipólito Yrigoyen 715 o Juan Ramón Lestani 649.',
-    canonicalPath: '/shop',
+      "El shop online de ELECTRO RLF está en preparación. Coordiná tu compra por WhatsApp y retirala en Hipólito Yrigoyen 715 o Juan Ramón Lestani 649.",
+    canonicalPath: "/shop",
     image: SHOP_IMAGE,
     ogImage: OG_IMAGE,
-    imageWidth: '1200',
-    imageHeight: '630',
-    imageAlt: 'Kits e insumos eléctricos de Electro RLF para comprar en Resistencia',
+    imageWidth: "1200",
+    imageHeight: "630",
+    imageAlt: "Kits e insumos eléctricos de Electro RLF para comprar en Resistencia",
   },
-}
+};
 
 function absoluteUrl(path) {
-  return new URL(path, SITE.baseUrl).toString()
+  return new URL(path, SITE.baseUrl).toString();
 }
 
 function ensureMeta(attributeName, attributeValue, content) {
-  let tag = document.head.querySelector(
-    `meta[${attributeName}="${attributeValue}"]`,
-  )
+  let tag = document.head.querySelector(`meta[${attributeName}="${attributeValue}"]`);
 
   if (!tag) {
-    tag = document.createElement('meta')
-    tag.setAttribute(attributeName, attributeValue)
-    document.head.appendChild(tag)
+    tag = document.createElement("meta");
+    tag.setAttribute(attributeName, attributeValue);
+    document.head.appendChild(tag);
   }
 
-  tag.setAttribute('content', content)
+  tag.setAttribute("content", content);
 }
 
 function ensureCanonical(href) {
-  let tag = document.head.querySelector('link[rel="canonical"]')
+  let tag = document.head.querySelector('link[rel="canonical"]');
 
   if (!tag) {
-    tag = document.createElement('link')
-    tag.setAttribute('rel', 'canonical')
-    document.head.appendChild(tag)
+    tag = document.createElement("link");
+    tag.setAttribute("rel", "canonical");
+    document.head.appendChild(tag);
   }
 
-  tag.setAttribute('href', href)
+  tag.setAttribute("href", href);
 }
 
 export function getRouteSeo(pathname) {
-  return ROUTE_SEO[pathname] ?? ROUTE_SEO['/']
+  return ROUTE_SEO[pathname] ?? ROUTE_SEO["/"];
 }
 
 export function applyRouteSeo(pathname) {
-  const seo = getRouteSeo(pathname)
-  const canonicalUrl = absoluteUrl(seo.canonicalPath)
-  const socialImage = seo.ogImage ?? seo.image
+  const seo = getRouteSeo(pathname);
+  const canonicalUrl = absoluteUrl(seo.canonicalPath);
+  const socialImage = seo.ogImage ?? seo.image;
 
-  document.title = seo.title
-  ensureCanonical(canonicalUrl)
+  document.title = seo.title;
+  ensureCanonical(canonicalUrl);
 
-  ensureMeta('name', 'description', seo.description)
-  ensureMeta('name', 'robots', 'index, follow, max-image-preview:large')
-  ensureMeta('property', 'og:title', seo.title)
-  ensureMeta('property', 'og:description', seo.description)
-  ensureMeta('property', 'og:type', 'website')
-  ensureMeta('property', 'og:url', canonicalUrl)
-  ensureMeta('property', 'og:site_name', SITE.name)
-  ensureMeta('property', 'og:locale', 'es_AR')
-  ensureMeta('property', 'og:image', socialImage)
-  ensureMeta('property', 'og:image:secure_url', socialImage)
-  ensureMeta('property', 'og:image:width', seo.imageWidth)
-  ensureMeta('property', 'og:image:height', seo.imageHeight)
-  ensureMeta('property', 'og:image:alt', seo.imageAlt)
-  ensureMeta('name', 'twitter:card', 'summary_large_image')
-  ensureMeta('name', 'twitter:title', seo.title)
-  ensureMeta('name', 'twitter:description', seo.description)
-  ensureMeta('name', 'twitter:image', socialImage)
-  ensureMeta('name', 'twitter:image:alt', seo.imageAlt)
+  ensureMeta("name", "description", seo.description);
+  ensureMeta("name", "robots", "index, follow, max-image-preview:large");
+  ensureMeta("property", "og:title", seo.title);
+  ensureMeta("property", "og:description", seo.description);
+  ensureMeta("property", "og:type", "website");
+  ensureMeta("property", "og:url", canonicalUrl);
+  ensureMeta("property", "og:site_name", SITE.name);
+  ensureMeta("property", "og:locale", "es_AR");
+  ensureMeta("property", "og:image", socialImage);
+  ensureMeta("property", "og:image:secure_url", socialImage);
+  ensureMeta("property", "og:image:width", seo.imageWidth);
+  ensureMeta("property", "og:image:height", seo.imageHeight);
+  ensureMeta("property", "og:image:alt", seo.imageAlt);
+  ensureMeta("name", "twitter:card", "summary_large_image");
+  ensureMeta("name", "twitter:title", seo.title);
+  ensureMeta("name", "twitter:description", seo.description);
+  ensureMeta("name", "twitter:image", socialImage);
+  ensureMeta("name", "twitter:image:alt", seo.imageAlt);
 }

@@ -2,7 +2,6 @@
 // en el mismo dominio los datos de la tienda que vienen del sistema de gestión.
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import { Readable } from 'node:stream'
 import { fileURLToPath } from 'node:url'
 import compression from 'compression'
 import express from 'express'
@@ -108,17 +107,19 @@ app.use('/api/tienda', async (req, res) => {
 })
 
 // Fotos de productos (nombres únicos: Cloudflare y el navegador las cachean para siempre).
+// Se mandan enteras y con Content-Length: WhatsApp no muestra la imagen de la
+// vista previa de un link si la respuesta llega "chunked", sin el tamaño.
 app.get(/^\/media\/productos\/[\w/.-]+$/, async (req, res) => {
   if (req.path.includes('..')) return res.sendStatus(404)
   try {
     const upstream = await fetch(gestionUrl + req.path, { signal: AbortSignal.timeout(15000) })
-    res.status(upstream.status)
+    if (!upstream.ok) return res.sendStatus(upstream.status === 404 ? 404 : 502)
+    const cuerpo = Buffer.from(await upstream.arrayBuffer())
     for (const header of ['content-type', 'cache-control', 'last-modified', 'etag']) {
       const value = upstream.headers.get(header)
       if (value) res.set(header, value)
     }
-    if (!upstream.ok || !upstream.body) return res.end()
-    Readable.fromWeb(upstream.body).pipe(res)
+    res.status(200).send(cuerpo)
   } catch (error) {
     console.error(`[gestion] ${req.path}: ${error.message}`)
     if (!res.headersSent) res.sendStatus(502)

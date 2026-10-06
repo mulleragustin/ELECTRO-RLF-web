@@ -157,9 +157,9 @@ function shopSeo(data) {
     description: rubro
       ? `${rubro.nombre} en ELECTRO RLF: ${rubro.total} productos para tu obra u hogar. Armá tu pedido, consultalo por WhatsApp y retiralo en Resistencia, Chaco.`
       : 'Catálogo online de ELECTRO RLF: materiales eléctricos, herramientas y ferretería. Armá tu pedido, consultalo por WhatsApp y retiralo en nuestras sedes de Resistencia, Chaco.',
-    // Las búsquedas no se indexan (contenido duplicado de las categorías).
-    canonical: data.q ? null : absolute(path),
-    robots: data.q ? NOINDEX : INDEX,
+    // Búsquedas y filtros por marca no se indexan (duplican las categorías).
+    canonical: data.q || data.marca ? null : absolute(path),
+    robots: data.q || data.marca ? NOINDEX : INDEX,
     image: SHOP_IMAGE,
     jsonLd: [breadcrumbList(crumbs)],
   }

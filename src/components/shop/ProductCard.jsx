@@ -3,13 +3,18 @@ import AddToCartButton from './AddToCartButton'
 import ConsultarButton from './ConsultarButton'
 import ProductImage from './ProductImage'
 
-export default function ProductCard({ producto, priority = false, headingLevel = 'h2' }) {
+export default function ProductCard({ producto, priority = false, headingLevel = 'h2', showDestacado = true }) {
   const Heading = headingLevel
 
   return (
     <article className="group flex w-full flex-col overflow-hidden rounded-lg border border-[#4a473240] bg-[#131313] transition-colors hover:border-[#fff21259]">
-      <a href={producto.path} tabIndex={-1} aria-hidden="true" className="block">
+      <a href={producto.path} tabIndex={-1} aria-hidden="true" className="relative block">
         <ProductImage imagen={producto.imagen} alt={producto.titulo} priority={priority} />
+        {showDestacado && producto.destacado ? (
+          <span className="absolute left-2 top-2 rounded-md bg-[#fff212] px-2 py-1 text-[10px] font-extrabold uppercase tracking-[0.1em] text-black shadow-[0_2px_10px_rgba(0,0,0,0.25)]">
+            Destacado
+          </span>
+        ) : null}
       </a>
 
       <div className="flex flex-1 flex-col p-3 sm:p-4 md:p-5">

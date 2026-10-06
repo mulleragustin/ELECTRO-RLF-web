@@ -18,6 +18,7 @@ import SectionLabel from "./ui/SectionLabel";
 import SectionTitle from "./ui/SectionTitle";
 import ImageSkeleton from "./ui/ImageSkeleton";
 import useScrollAnimations from "../hooks/useScrollAnimations";
+import FeaturedProducts from "./shop/FeaturedProducts";
 
 const HERO_IMAGE = "/assets/seo/ferreteria-electrica-resistencia-electro-rlf.jpg";
 const MATERIALS_IMAGE = "/assets/seo/kit-herramientas-insumos-electricos-electro-rlf.jpg";
@@ -76,7 +77,7 @@ const MARQUEE_BRANDS = [
   { name: "Prive", src: "/MARCAS/prive.svg" },
 ];
 
-export default function HomePage() {
+export default function HomePage({ destacados = [] }) {
   const mainRef = useRef(null);
   useScrollAnimations(mainRef);
 
@@ -190,6 +191,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ── Productos destacados (se eligen desde la gestión) ── */}
+      <FeaturedProducts productos={destacados} />
 
       {/* ── Services ── */}
       <section

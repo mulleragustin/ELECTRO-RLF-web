@@ -26,6 +26,7 @@ export function createApi(fetchJson) {
   return {
     productos: (params) => get('productos/', params),
     producto: (id) => get(`productos/${encodeURIComponent(id)}/`),
+    destacados: () => get('destacados/'),
   }
 }
 

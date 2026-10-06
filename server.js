@@ -32,7 +32,7 @@ async function fetchUpstream(url) {
   try {
     const response = await fetch(url, {
       headers: { 'user-agent': 'electrorlf-web' },
-      signal: AbortSignal.timeout(8000),
+      signal: AbortSignal.timeout(4000),
     })
     return { status: response.status, text: await response.text() }
   } catch (error) {
@@ -97,7 +97,7 @@ app.get('/healthz', (req, res) => res.type('text').send('ok'))
 
 // API de la tienda (la usa el navegador al navegar dentro del sitio).
 app.use('/api/tienda', async (req, res) => {
-  const match = req.url.match(/^\/(productos\/(?:\d+\/)?)(\?.*)?$/)
+  const match = req.url.match(/^\/(productos\/(?:\d+\/)?|destacados\/)(\?.*)?$/)
   if (req.method !== 'GET' || !match) return res.status(404).json({ detail: 'No encontrado' })
   const result = await cachedFetch(apiBase + match[1] + (match[2] || ''), API_TTL)
   res

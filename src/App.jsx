@@ -36,7 +36,9 @@ async function fetchPage(location) {
 }
 
 function scrollToTarget({ hash, y = 0, smooth = false }) {
-  const behavior = smooth ? 'smooth' : 'auto'
+  // 'instant' y no 'auto': el html tiene scroll-behavior: smooth y el salto al
+  // cambiar de página quedaba a mitad de camino.
+  const behavior = smooth ? 'smooth' : 'instant'
   if (hash && hash !== 'inicio') {
     const element = document.getElementById(hash)
     if (element) {
@@ -159,7 +161,7 @@ function App({ initialUrl, initialPage }) {
   else if (route.name === 'shop') content = <ShopPage data={page.data} />
   else if (route.name === 'product') content = <ProductPage producto={page.data} />
   else if (route.name === 'cart') content = <CartPage />
-  else content = <HomePage />
+  else content = <HomePage destacados={page.data?.destacados ?? []} />
 
   return (
     <NavigationContext.Provider value={navigation}>

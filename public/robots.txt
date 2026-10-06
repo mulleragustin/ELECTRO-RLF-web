@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /carrito
+Disallow: /api/
 
-Sitemap: https://electrorlf.com/sitemap.xml
+Sitemap: https://electrorlf.com.ar/sitemap.xml
+Sitemap: https://electrorlf.com.ar/sitemap-productos.xml

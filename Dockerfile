@@ -1,33 +1,32 @@
 # syntax=docker/dockerfile:1.7
 
-FROM node:20-alpine AS builder
+FROM node:22-alpine AS builder
 WORKDIR /app
 
 RUN corepack enable
 
-COPY package.json pnpm-lock.yaml* package-lock.json* ./
-
-RUN if [ -f pnpm-lock.yaml ]; then \
-      pnpm install --frozen-lockfile; \
-    elif [ -f package-lock.json ]; then \
-      npm ci; \
-    else \
-      npm install; \
-    fi
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 
 COPY . .
-RUN if [ -f pnpm-lock.yaml ]; then pnpm run build; else npm run build; fi
+RUN pnpm run build && pnpm prune --prod
 
-FROM nginx:1.27-alpine AS runner
+# Servidor Node: render en servidor (SEO) + proxy de la tienda hacia gestión.
+FROM node:22-alpine AS runner
+WORKDIR /app
 
-RUN apk add --no-cache curl
+ENV NODE_ENV=production \
+    PORT=80 \
+    GESTION_URL=https://gestion.electrorlf.com.ar
 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=builder /app/dist /usr/share/nginx/html
+COPY --from=builder /app/package.json ./
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/server.js ./
 
 EXPOSE 80
 
-HEALTHCHECK --interval=10s --timeout=3s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost/ || exit 1
+HEALTHCHECK --interval=10s --timeout=3s --start-period=10s --retries=3 \
+  CMD wget -qO- http://127.0.0.1/healthz >/dev/null || exit 1
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["node", "server.js"]

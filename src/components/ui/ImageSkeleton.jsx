@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 
 export default function ImageSkeleton({
   src,
@@ -13,6 +13,11 @@ export default function ImageSkeleton({
   children,
 }) {
   const [isLoaded, setIsLoaded] = useState(false)
+  // Con render en servidor la imagen puede terminar de cargar antes de que
+  // React hidrate: en ese caso onLoad no se dispara y hay que mirarla al montar.
+  const checkLoaded = useCallback((img) => {
+    if (img?.complete && img.naturalWidth > 0) setIsLoaded(true)
+  }, [])
 
   return (
     <div className={`relative overflow-hidden bg-[#1a1a1a] ${wrapperClassName} ${className}`}>
@@ -20,6 +25,7 @@ export default function ImageSkeleton({
         <div className="absolute inset-0 animate-pulse bg-[#2a2a2a]" />
       )}
       <img
+        ref={checkLoaded}
         src={src}
         alt={alt}
         onLoad={() => setIsLoaded(true)}

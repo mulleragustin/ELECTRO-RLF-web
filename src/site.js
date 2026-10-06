@@ -8,9 +8,14 @@ export function whatsappLink(msg = WHATSAPP_MSG) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`
 }
 
+// Igual que whatsappLink pero recibe el texto sin codificar.
+export function whatsappText(text) {
+  return whatsappLink(encodeURIComponent(text))
+}
+
 export const SITE = {
   name: 'ELECTRO RLF',
-  baseUrl: 'https://electrorlf.com',
+  baseUrl: 'https://electrorlf.com.ar',
   tagline: 'Ferretería eléctrica & servicios',
   description:
     'Venta de materiales eléctricos, ferretería eléctrica y servicios residenciales en Resistencia, Chaco.',

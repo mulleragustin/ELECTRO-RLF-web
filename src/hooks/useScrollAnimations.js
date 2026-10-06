@@ -103,19 +103,20 @@ export default function useScrollAnimations(containerRef) {
         })
       })
 
+      // Los elementos del hero arrancan ocultos por CSS (html.js, ver index.css)
+      // para que no parpadeen al hidratar el HTML del servidor; por eso usan
+      // fromTo con opacity: 1 explícito en vez de from.
+
       // ── Hero entrance (runs immediately, no scroll needed) ──
       const heroTimeline = gsap.utils.toArray('[data-animate="hero"]', container)
       if (heroTimeline.length) {
         const tl = gsap.timeline({ defaults: { ease: 'power3.out' } })
 
         heroTimeline.forEach((el, i) => {
-          tl.from(
+          tl.fromTo(
             el,
-            {
-              y: 32,
-              opacity: 0,
-              duration: 0.8,
-            },
+            { y: 32, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.8 },
             i * 0.15,
           )
         })
@@ -123,25 +124,26 @@ export default function useScrollAnimations(containerRef) {
 
       // ── Hero image (clip-path reveal) ──
       gsap.utils.toArray('[data-animate="hero-image"]', container).forEach((el) => {
-        gsap.from(el, {
-          clipPath: 'inset(12% 12% 12% 12%)',
-          opacity: 0,
-          duration: 1.1,
-          ease: 'power4.out',
-          delay: 0.3,
-        })
+        gsap.fromTo(
+          el,
+          { clipPath: 'inset(12% 12% 12% 12%)', opacity: 0 },
+          {
+            clipPath: 'inset(0% 0% 0% 0%)',
+            opacity: 1,
+            duration: 1.1,
+            ease: 'power4.out',
+            delay: 0.3,
+          },
+        )
       })
 
       // ── Hero card (float in) ──
       gsap.utils.toArray('[data-animate="hero-card"]', container).forEach((el) => {
-        gsap.from(el, {
-          y: 40,
-          x: -20,
-          opacity: 0,
-          duration: 0.9,
-          ease: 'power3.out',
-          delay: 0.7,
-        })
+        gsap.fromTo(
+          el,
+          { y: 40, x: -20, opacity: 0 },
+          { y: 0, x: 0, opacity: 1, duration: 0.9, ease: 'power3.out', delay: 0.7 },
+        )
       })
 
       // ── Section titles with line draw ──

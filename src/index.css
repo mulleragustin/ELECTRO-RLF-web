@@ -178,3 +178,12 @@ body {
 .animate-marquee:hover {
   animation-play-state: paused;
 }
+
+/* Con JS, el hero arranca oculto y GSAP lo hace aparecer: así el HTML que llega
+   del servidor no se ve, desaparece y vuelve a aparecer al hidratar. Si a los 3 s
+   no arrancó (error de JS), index.html agrega .js-fallback y se muestra igual. */
+.js:not(.js-fallback) [data-animate='hero'],
+.js:not(.js-fallback) [data-animate='hero-image'],
+.js:not(.js-fallback) [data-animate='hero-card'] {
+  opacity: 0;
+}

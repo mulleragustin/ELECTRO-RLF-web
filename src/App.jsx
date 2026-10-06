@@ -1,115 +1,173 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import AboutPage from './components/AboutPage'
+import CartPage from './components/CartPage'
+import ErrorPage from './components/ErrorPage'
 import HomePage from './components/HomePage'
+import NotFoundPage from './components/NotFoundPage'
+import ProductPage from './components/ProductPage'
 import ShopPage from './components/ShopPage'
 import SiteFooter from './components/SiteFooter'
 import SiteNavbar from './components/SiteNavbar'
-import { applyRouteSeo } from './seo'
+import { WhatsAppIcon } from './components/icons'
+import { browserApi } from './api'
+import { NavigationContext, isAppLink } from './navigation'
+import { loadPageData, locationHref, matchRoute, parseUrl, routeNeedsData } from './router'
+import { applySeo, buildSeo } from './seo'
 import { whatsappLink } from './site'
 
-const KNOWN_PATHS = new Set(['/', '/nosotros', '/shop'])
+// Páginas ya visitadas: volver atrás en el shop es instantáneo.
+const PAGE_CACHE_TTL = 60_000
+const pageCache = new Map()
 
-function normalizePathname(pathname) {
-  const trimmedPath = pathname.replace(/\/+$/, '')
-  return trimmedPath === '' ? '/' : trimmedPath.toLowerCase()
+function pageKey(location) {
+  return `${location.pathname}${location.search}`
 }
 
-function getCurrentRoute() {
-  const pathname = normalizePathname(window.location.pathname)
+async function fetchPage(location) {
+  const route = matchRoute(location.pathname)
+  if (!routeNeedsData(route)) return loadPageData(route, location.query, browserApi)
 
-  return {
-    pathname: KNOWN_PATHS.has(pathname) ? pathname : '/',
-    hash: window.location.hash.replace(/^#/, ''),
+  const key = pageKey(location)
+  const hit = pageCache.get(key)
+  if (hit && Date.now() - hit.time < PAGE_CACHE_TTL) return hit.page
+  const page = await loadPageData(route, location.query, browserApi)
+  if (page.status === 200) pageCache.set(key, { page, time: Date.now() })
+  return page
+}
+
+function scrollToTarget({ hash, y = 0, smooth = false }) {
+  const behavior = smooth ? 'smooth' : 'auto'
+  if (hash && hash !== 'inicio') {
+    const element = document.getElementById(hash)
+    if (element) {
+      element.scrollIntoView({ behavior, block: 'start' })
+      return
+    }
   }
+  window.scrollTo({ top: y, behavior })
 }
 
-function WhatsAppIcon(props) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      {...props}
-    >
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.489-1.761-1.663-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z" />
-    </svg>
-  )
-}
+function App({ initialUrl, initialPage }) {
+  const [location, setLocation] = useState(() => parseUrl(initialUrl))
+  const [page, setPage] = useState(initialPage)
+  const [isLoading, setIsLoading] = useState(false)
+  const locationRef = useRef(location)
+  const requestRef = useRef(0)
+  const pendingScroll = useRef(null)
+  const seoReady = useRef(false)
+  const route = useMemo(() => matchRoute(location.pathname), [location.pathname])
 
-function App() {
-  const [route, setRoute] = useState(getCurrentRoute)
+  const commit = useCallback((nextLocation, nextPage, scroll) => {
+    locationRef.current = nextLocation
+    pendingScroll.current = scroll
+    setLocation(nextLocation)
+    setPage(nextPage)
+    setIsLoading(false)
+  }, [])
+
+  const navigate = useCallback(async (href, { replace = false } = {}) => {
+    let next = parseUrl(href)
+    const current = locationRef.current
+    const historyMethod = replace ? 'replaceState' : 'pushState'
+
+    // Misma página, solo cambia el ancla (#servicios, #inicio…).
+    if (next.pathname === current.pathname && next.search === current.search) {
+      window.history[historyMethod](window.history.state, '', locationHref(next))
+      locationRef.current = next
+      setLocation(next)
+      scrollToTarget({ hash: next.hash, smooth: true })
+      return
+    }
+
+    window.history.replaceState({ ...window.history.state, scrollY: window.scrollY }, '')
+    const request = ++requestRef.current
+    const nextRoute = matchRoute(next.pathname)
+    if (routeNeedsData(nextRoute)) setIsLoading(true)
+    const nextPage = await fetchPage(next)
+    if (request !== requestRef.current) return
+
+    // Producto con un slug viejo: se muestra con la URL canónica.
+    if (nextRoute.name === 'product' && nextPage.data?.path && nextPage.data.path !== next.pathname) {
+      next = parseUrl(nextPage.data.path)
+    }
+    window.history[historyMethod]({ scrollY: 0 }, '', locationHref(next))
+    commit(next, nextPage, { hash: next.hash })
+  }, [commit])
 
   useEffect(() => {
-    const syncRoute = () => {
-      setRoute(getCurrentRoute())
+    const handlePopState = async (event) => {
+      const next = parseUrl(window.location.href)
+      const current = locationRef.current
+      const request = ++requestRef.current
+      if (next.pathname === current.pathname && next.search === current.search) {
+        locationRef.current = next
+        setLocation(next)
+        scrollToTarget({ hash: next.hash })
+        return
+      }
+      if (routeNeedsData(matchRoute(next.pathname))) setIsLoading(true)
+      const nextPage = await fetchPage(next)
+      if (request !== requestRef.current) return
+      commit(next, nextPage, { y: event.state?.scrollY ?? 0 })
     }
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [commit])
 
-    window.addEventListener('popstate', syncRoute)
-
-    return () => {
-      window.removeEventListener('popstate', syncRoute)
+  // Links internos (<a href="/...">) sin recargar la página.
+  useEffect(() => {
+    const handleClick = (event) => {
+      const anchor = event.target instanceof Element ? event.target.closest('a[href]') : null
+      if (!isAppLink(event, anchor)) return
+      event.preventDefault()
+      const url = new URL(anchor.href)
+      navigate(`${url.pathname}${url.search}${url.hash}`)
     }
+    document.addEventListener('click', handleClick)
+    return () => document.removeEventListener('click', handleClick)
+  }, [navigate])
+
+  // Al entrar con un ancla (/#servicios) el servidor no la conoce: se resuelve acá.
+  useEffect(() => {
+    const hash = window.location.hash.replace(/^#/, '')
+    if (hash) window.requestAnimationFrame(() => scrollToTarget({ hash, smooth: true }))
   }, [])
 
   useEffect(() => {
-    if (route.pathname === '/nosotros' || route.pathname === '/shop') {
-      window.scrollTo({ top: 0, behavior: 'auto' })
-      return
-    }
-
-    if (!route.hash || route.hash === 'inicio') {
-      window.scrollTo({ top: 0, behavior: 'auto' })
-      return
-    }
-
-    const target = document.getElementById(route.hash)
+    const target = pendingScroll.current
     if (!target) return
+    pendingScroll.current = null
+    scrollToTarget(target)
+  }, [location, page])
 
-    window.requestAnimationFrame(() => {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    })
-  }, [route])
-
+  const seo = useMemo(() => buildSeo(route, page), [route, page])
   useEffect(() => {
-    applyRouteSeo(route.pathname)
-  }, [route.pathname])
-
-  const handleNavigate = (pathname, hash = '') => {
-    const nextPathname = KNOWN_PATHS.has(normalizePathname(pathname))
-      ? normalizePathname(pathname)
-      : '/'
-    const nextHash = hash.replace(/^#/, '')
-    const nextHashPart = nextHash ? `#${nextHash}` : ''
-    const nextUrl = `${nextPathname}${nextHashPart}`
-    const currentRoute = getCurrentRoute()
-
-    if (
-      currentRoute.pathname === nextPathname &&
-      currentRoute.hash === nextHash
-    ) {
-      if (nextPathname === '/' && nextHash && nextHash !== 'inicio') {
-        const target = document.getElementById(nextHash)
-        target?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      }
-
-      if (nextPathname === '/' && (!nextHash || nextHash === 'inicio')) {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-      }
-
+    // En la primera carga el <head> ya viene armado del servidor.
+    if (!seoReady.current) {
+      seoReady.current = true
       return
     }
+    applySeo(seo)
+  }, [seo])
 
-    window.history.pushState({}, '', nextUrl)
-    setRoute({ pathname: nextPathname, hash: nextHash })
-  }
+  const navigation = useMemo(() => ({ location, route, navigate }), [location, route, navigate])
 
-  const isAboutPage = route.pathname === '/nosotros'
-  const isShopPage = route.pathname === '/shop'
+  let content
+  if (page.status === 404) content = <NotFoundPage />
+  else if (page.status >= 500) content = <ErrorPage />
+  else if (route.name === 'about') content = <AboutPage />
+  else if (route.name === 'shop') content = <ShopPage data={page.data} />
+  else if (route.name === 'product') content = <ProductPage producto={page.data} />
+  else if (route.name === 'cart') content = <CartPage />
+  else content = <HomePage />
 
   return (
-    <>
-      <SiteNavbar route={route} onNavigate={handleNavigate} />
-      {isAboutPage ? <AboutPage /> : isShopPage ? <ShopPage /> : <HomePage />}
+    <NavigationContext.Provider value={navigation}>
+      {isLoading ? (
+        <div aria-hidden="true" className="fixed inset-x-0 top-0 z-[60] h-[3px] animate-pulse bg-[#fff212]" />
+      ) : null}
+      <SiteNavbar />
+      <Fragment key={pageKey(location)}>{content}</Fragment>
       <SiteFooter />
 
       <a
@@ -123,7 +181,7 @@ function App() {
       >
         <WhatsAppIcon className="size-8" />
       </a>
-    </>
+    </NavigationContext.Provider>
   )
 }
 

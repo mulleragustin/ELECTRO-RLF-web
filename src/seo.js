@@ -138,12 +138,23 @@ function productSeo(producto) {
   ])]
   if (producto.precio) jsonLd.push(productJsonLd(producto, canonical, imagenesLimpias, description))
 
+  // Al compartir el link (WhatsApp, Facebook): imagen apaisada de 1200x630 con
+  // foto, nombre y precios; título con el precio y descripción con el de efectivo.
+  const retiro = `Retirá en ${SITE.branches.join(' o ')}, Resistencia.`
+  const ogImage = producto.compartir
+    ? { url: absolute(producto.compartir), width: 1200, height: 630, alt: producto.titulo, type: 'image/jpeg' }
+    : images[0]
+
   return {
     title: `${producto.titulo}${marca} | ELECTRO RLF`,
     description,
+    ogTitle: producto.precio ? `${producto.titulo} · ${formatPrecio(producto.precio)}` : producto.titulo,
+    ogDescription: producto.precio
+      ? `${producto.precio_efectivo ? `${formatPrecio(producto.precio_efectivo)} pagando en efectivo o transferencia. ` : ''}${retiro}`
+      : `Consultá precio y disponibilidad por WhatsApp. ${retiro}`,
     canonical,
     ogType: 'product',
-    image: images[0],
+    image: ogImage,
     extraMeta: producto.precio
       ? [['product:price:amount', producto.precio], ['product:price:currency', 'ARS']]
       : [],
@@ -200,15 +211,21 @@ function seoTags(seo) {
     ['meta', { name: 'robots', content: seo.robots }],
   ]
   if (seo.canonical) tags.push(['link', { rel: 'canonical', href: seo.canonical }])
+  const ogTitle = seo.ogTitle || seo.title
+  const ogDescription = seo.ogDescription || seo.description
   tags.push(
-    ['meta', { property: 'og:title', content: seo.title }],
-    ['meta', { property: 'og:description', content: seo.description }],
+    ['meta', { property: 'og:title', content: ogTitle }],
+    ['meta', { property: 'og:description', content: ogDescription }],
     ['meta', { property: 'og:type', content: seo.ogType }],
     ['meta', { property: 'og:site_name', content: SITE.name }],
     ['meta', { property: 'og:locale', content: 'es_AR' }],
   )
   if (seo.canonical) tags.push(['meta', { property: 'og:url', content: seo.canonical }])
-  tags.push(['meta', { property: 'og:image', content: image.url }])
+  tags.push(
+    ['meta', { property: 'og:image', content: image.url }],
+    ['meta', { property: 'og:image:secure_url', content: image.url }],
+  )
+  if (image.type) tags.push(['meta', { property: 'og:image:type', content: image.type }])
   if (image.width && image.height) {
     tags.push(
       ['meta', { property: 'og:image:width', content: String(image.width) }],
@@ -219,8 +236,8 @@ function seoTags(seo) {
   for (const [property, content] of seo.extraMeta) tags.push(['meta', { property, content }])
   tags.push(
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
-    ['meta', { name: 'twitter:title', content: seo.title }],
-    ['meta', { name: 'twitter:description', content: seo.description }],
+    ['meta', { name: 'twitter:title', content: ogTitle }],
+    ['meta', { name: 'twitter:description', content: ogDescription }],
     ['meta', { name: 'twitter:image', content: image.url }],
   )
   if (seo.preloadImage) {

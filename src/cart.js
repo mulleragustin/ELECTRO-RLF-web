@@ -1,6 +1,7 @@
 // Carrito guardado en localStorage. Mientras no haya precios funciona como
 // pedido de cotización: se envía por WhatsApp.
 import { useSyncExternalStore } from 'react'
+import { formatPrecio } from './format'
 import { SITE } from './site'
 
 const STORAGE_KEY = 'rlf-carrito'
@@ -85,6 +86,9 @@ export function addToCart(producto, cantidad = 1) {
     path: producto.path,
     unidad: producto.unidad,
     imagen: producto.imagen?.miniatura || null,
+    conMarca: Boolean(producto.imagen?.con_marca),
+    precio: producto.precio || null,
+    precio_efectivo: producto.precio_efectivo || null,
     cantidad: clamp((existing?.cantidad || 0) + cantidad),
   }
   commit(existing
@@ -108,13 +112,46 @@ export function formatCantidad(cantidad, unidad) {
   return unidad && unidad !== 'u' ? `${cantidad} ${unidad}` : `${cantidad}`
 }
 
+// Totales en centavos para no arrastrar errores de punto flotante.
+function centavos(precio) {
+  return Math.round(Number(precio) * 100)
+}
+
+export function totalesCarrito(lista) {
+  let lista$ = 0
+  let efectivo = 0
+  let sinPrecio = 0
+  for (const item of lista) {
+    if (!item.precio) {
+      sinPrecio += 1
+      continue
+    }
+    lista$ += centavos(item.precio) * item.cantidad
+    efectivo += centavos(item.precio_efectivo || item.precio) * item.cantidad
+  }
+  return { lista: lista$ / 100, efectivo: efectivo / 100, sinPrecio }
+}
+
 export function pedidoWhatsAppText(lista, { nombre = '', sede = '', comentarios = '' } = {}) {
+  const totales = totalesCarrito(lista)
   const lineas = [
-    'Hola! Quiero consultar precio y disponibilidad de este pedido:',
+    totales.lista
+      ? 'Hola! Quiero hacer este pedido:'
+      : 'Hola! Quiero consultar precio y disponibilidad de este pedido:',
     '',
-    ...lista.map((item) => `• ${formatCantidad(item.cantidad, item.unidad)} × ${item.titulo} (cód. ${item.codigo})`),
+    // El código es interno: le sirve al local para ubicar el producto.
+    ...lista.map((item) => {
+      const linea = `• ${formatCantidad(item.cantidad, item.unidad)} × ${item.titulo} (cód. ${item.codigo})`
+      return item.precio ? `${linea} — ${formatPrecio((centavos(item.precio) * item.cantidad) / 100)}` : linea
+    }),
     '',
   ]
+  if (totales.lista) {
+    lineas.push(`Total de lista: ${formatPrecio(totales.lista)}`)
+    lineas.push(`Total en efectivo o transferencia: ${formatPrecio(totales.efectivo)}`)
+    if (totales.sinPrecio) lineas.push('(Hay productos sin precio publicado: cotizarlos aparte)')
+    lineas.push('')
+  }
   if (sede) lineas.push(`Retiro en: ${sede}`)
   if (nombre.trim()) lineas.push(`Nombre: ${nombre.trim()}`)
   if (comentarios.trim()) lineas.push(`Comentarios: ${comentarios.trim()}`)

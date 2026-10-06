@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { Check, ShieldCheck, Store } from 'lucide-react'
-import { formatPrecio, miniaturaSize, unidadPlural } from '../format'
+import { miniaturaSize, unidadPlural } from '../format'
 import { SITE } from '../site'
 import AddToCartButton from './shop/AddToCartButton'
 import Breadcrumbs from './shop/Breadcrumbs'
 import ConsultarButton from './shop/ConsultarButton'
+import Precio from './shop/Precio'
 import ProductCard from './shop/ProductCard'
 import ProductImage from './shop/ProductImage'
 import QuantityInput from './shop/QuantityInput'
@@ -25,7 +26,7 @@ function Gallery({ imagenes, titulo }) {
 
   return (
     <div>
-      <div className="aspect-square overflow-hidden rounded-lg border border-[#4a473240] bg-white">
+      <div className={`aspect-square overflow-hidden rounded-lg border border-[#4a473240] ${imagen.con_marca ? 'bg-[#dededa]' : 'bg-white'}`}>
         <img
           key={imagen.url}
           src={imagen.url}
@@ -36,7 +37,7 @@ function Gallery({ imagenes, titulo }) {
           alt={actual === 0 ? titulo : `${titulo} - foto ${actual + 1}`}
           fetchPriority={actual === 0 ? 'high' : 'auto'}
           decoding="async"
-          className="h-full w-full object-contain p-4 md:p-8"
+          className={imagen.con_marca ? 'h-full w-full object-cover' : 'h-full w-full object-contain p-4 md:p-8'}
         />
       </div>
 
@@ -53,7 +54,13 @@ function Gallery({ imagenes, titulo }) {
                   index === actual ? 'border-[#fff212]' : 'border-transparent opacity-70 hover:opacity-100'
                 }`}
               >
-                <img src={item.miniatura} alt="" loading="lazy" decoding="async" className="h-full w-full object-contain p-1" />
+                <img
+                  src={item.miniatura}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  className={item.con_marca ? 'h-full w-full object-cover' : 'h-full w-full object-contain p-1'}
+                />
               </button>
             </li>
           ))}
@@ -167,23 +174,17 @@ export default function ProductPage({ producto }) {
             {producto.titulo}
           </h1>
 
-          <dl className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-[13px]">
-            {producto.marca ? (
-              <div className="flex gap-2">
-                <dt className="font-semibold uppercase tracking-[0.1em] text-[#e2e2e280]">Marca</dt>
-                <dd className="font-bold text-white">{producto.marca}</dd>
-              </div>
-            ) : null}
-            <div className="flex gap-2">
-              <dt className="font-semibold uppercase tracking-[0.1em] text-[#e2e2e280]">Código</dt>
-              <dd className="font-mono font-bold text-white">{producto.codigo}</dd>
-            </div>
-          </dl>
+          {producto.marca ? (
+            <dl className="mt-5 flex gap-2 text-[13px]">
+              <dt className="font-semibold uppercase tracking-[0.1em] text-[#e2e2e280]">Marca</dt>
+              <dd className="font-bold text-white">{producto.marca}</dd>
+            </dl>
+          ) : null}
 
           <Disponibilidad producto={producto} />
 
           {producto.precio ? (
-            <p className="mt-6 text-[34px] font-extrabold text-white">{formatPrecio(producto.precio)}</p>
+            <Precio producto={producto} grande />
           ) : (
             <p className="mt-6 max-w-[520px] text-[15px] font-medium leading-[1.6] text-[#ccc7ab]">
               Agregalo al carrito o consultanos directo: te pasamos el precio actualizado y la

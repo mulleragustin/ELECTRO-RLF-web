@@ -233,7 +233,9 @@ export default function ShopPage({ data }) {
               )}
             </h1>
             <p className="mt-4 max-w-[600px] text-[16px] font-medium leading-[1.6] text-[#ccc7ab]">
-              Armá tu carrito y envialo por WhatsApp: te respondemos con precio y disponibilidad.
+              {data.mostrar_precios
+                ? 'Armá tu carrito y envialo por WhatsApp: confirmamos el stock y coordinamos el pago. Pagando en efectivo o transferencia tenés mejor precio.'
+                : 'Armá tu carrito y envialo por WhatsApp: te respondemos con precio y disponibilidad.'}{' '}
               Retirás en {SITE.branches.join(' o ')}, Resistencia.
             </p>
           </div>

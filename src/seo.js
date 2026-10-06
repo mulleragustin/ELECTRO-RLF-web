@@ -1,5 +1,6 @@
 // SEO por página. El servidor lo inserta en el HTML (renderSeoTags) y el
 // navegador lo actualiza al navegar dentro del sitio (applySeo).
+import { formatPrecio } from './format'
 import { SITE } from './site'
 
 const INDEX = 'index, follow, max-image-preview:large'
@@ -86,7 +87,7 @@ function productJsonLd(producto, canonical, images, description) {
     ...(producto.gtin ? { gtin: producto.gtin } : {}),
     ...(producto.marca ? { brand: { '@type': 'Brand', name: producto.marca } } : {}),
     category: producto.rubro.nombre,
-    image: images.map((image) => image.url),
+    image: images,
     additionalProperty: producto.caracteristicas
       .filter((caracteristica) => caracteristica.nombre)
       .map((caracteristica) => ({
@@ -110,16 +111,24 @@ function productSeo(producto) {
   const marca = producto.marca && !producto.titulo.toLowerCase().includes(producto.marca.toLowerCase())
     ? ` ${producto.marca}`
     : ''
+  const precio = producto.precio
+    ? ` ${formatPrecio(producto.precio)}${producto.precio_efectivo ? ` (${formatPrecio(producto.precio_efectivo)} en efectivo o transferencia)` : ''}.`
+    : ''
   const description = producto.descripcion
     ? resumen(producto.descripcion, 155)
-    : `${producto.titulo}${marca} en ELECTRO RLF. Consultá precio y disponibilidad por WhatsApp y retiralo en nuestras sedes de Resistencia, Chaco.`
+    : precio
+      ? `${producto.titulo}${marca} en ELECTRO RLF:${precio} Retiralo en nuestras sedes de Resistencia, Chaco.`
+      : `${producto.titulo}${marca} en ELECTRO RLF. Consultá precio y disponibilidad por WhatsApp y retiralo en nuestras sedes de Resistencia, Chaco.`
   const canonical = absolute(producto.path)
+  // Para compartir (WhatsApp, Facebook) va la foto con la marca.
   const images = producto.imagenes.map((imagen) => ({
     url: absolute(imagen.url),
     width: imagen.ancho,
     height: imagen.alto,
     alt: producto.titulo,
   }))
+  // Para Google, la foto limpia: rechaza imágenes con logos o marcas de agua.
+  const imagenesLimpias = producto.imagenes.map((imagen) => absolute(imagen.original || imagen.url))
 
   const jsonLd = [breadcrumbList([
     ['Inicio', '/'],
@@ -127,7 +136,7 @@ function productSeo(producto) {
     [producto.rubro.nombre, `/shop/${producto.rubro.slug}`],
     [producto.titulo, producto.path],
   ])]
-  if (producto.precio) jsonLd.push(productJsonLd(producto, canonical, images, description))
+  if (producto.precio) jsonLd.push(productJsonLd(producto, canonical, imagenesLimpias, description))
 
   return {
     title: `${producto.titulo}${marca} | ELECTRO RLF`,

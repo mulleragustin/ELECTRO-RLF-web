@@ -5,10 +5,11 @@ import {
   pedidoWhatsAppText,
   removeFromCart,
   setCantidad,
+  totalesCarrito,
   useCart,
   useIsClient,
 } from '../cart'
-import { unidadPlural } from '../format'
+import { formatPrecio, unidadPlural, unidadSingular } from '../format'
 import { SITE, whatsappText } from '../site'
 import { WhatsAppIcon } from './icons'
 import QuantityInput from './shop/QuantityInput'
@@ -22,7 +23,13 @@ function CartItem({ item }) {
     <li className="flex gap-4 p-4 md:p-5">
       <a href={item.path} className="size-20 shrink-0 overflow-hidden rounded-md bg-white md:size-24" tabIndex={-1} aria-hidden="true">
         {item.imagen ? (
-          <img src={item.imagen} alt="" loading="lazy" decoding="async" className="h-full w-full object-contain p-1.5" />
+          <img
+            src={item.imagen}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            className={item.conMarca ? 'h-full w-full object-cover' : 'h-full w-full object-contain p-1.5'}
+          />
         ) : (
           <div className="flex h-full items-center justify-center bg-[#1a1a1a] text-[#fff21259]">
             <PackageOpen className="size-7" strokeWidth={1.5} />
@@ -34,7 +41,15 @@ function CartItem({ item }) {
           <a href={item.path} className="line-clamp-2 text-[15px] font-bold leading-snug text-white transition-colors hover:text-[#fff212]">
             {item.titulo}
           </a>
-          <p className="mt-1 font-mono text-[12px] text-[#e2e2e280]">Cód. {item.codigo}</p>
+          {item.precio ? (
+            <p className="mt-1.5 text-[13px] font-semibold text-[#e2e2e2b3]">
+              {formatPrecio(item.precio)}
+              {unidadSingular(item.unidad) ? ` / ${unidadSingular(item.unidad)}` : ' c/u'}
+              {item.precio_efectivo ? (
+                <span className="text-[#7fe0a2]"> · {formatPrecio(item.precio_efectivo)} efectivo</span>
+              ) : null}
+            </p>
+          ) : null}
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <QuantityInput
@@ -91,6 +106,7 @@ export default function CartPage() {
     content = <EmptyCart />
   } else {
     const mensaje = pedidoWhatsAppText(items, { nombre, sede: retiro, comentarios })
+    const totales = totalesCarrito(items)
     content = (
       <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_400px] lg:gap-12">
         <div>
@@ -111,8 +127,28 @@ export default function CartPage() {
         <aside className="h-fit rounded-lg border border-[#fff21233] bg-[#131313] p-6 md:p-8 lg:sticky lg:top-28">
           <h2 className="text-[20px] font-extrabold uppercase tracking-[-0.3px] text-white">Enviar pedido</h2>
           <p className="mt-3 text-[14px] font-medium leading-[1.6] text-[#e2e2e2b3]">
-            Te respondemos por WhatsApp con el precio actualizado y la disponibilidad de cada producto.
+            {totales.lista
+              ? 'Te confirmamos el stock por WhatsApp y coordinamos el pago y el retiro.'
+              : 'Te respondemos por WhatsApp con el precio actualizado y la disponibilidad de cada producto.'}
           </p>
+
+          {totales.lista ? (
+            <div className="mt-6 space-y-2.5 border-y border-[#4a473240] py-4">
+              <div className="flex items-baseline justify-between gap-4 text-[14px] font-semibold text-[#e2e2e2b3]">
+                <span>Total de lista</span>
+                <span className="text-[18px] font-extrabold text-white">{formatPrecio(totales.lista)}</span>
+              </div>
+              <div className="flex items-baseline justify-between gap-4 text-[14px] font-semibold text-[#e2e2e2b3]">
+                <span>Efectivo o transferencia</span>
+                <span className="text-[18px] font-extrabold text-[#7fe0a2]">{formatPrecio(totales.efectivo)}</span>
+              </div>
+              {totales.sinPrecio ? (
+                <p className="text-[12px] font-medium text-[#e2e2e280]">
+                  Hay productos sin precio publicado: te los cotizamos por WhatsApp.
+                </p>
+              ) : null}
+            </div>
+          ) : null}
 
           <fieldset className="mt-6">
             <legend className="text-[12px] font-extrabold uppercase tracking-[0.14em] text-[#fff212]">Retiro en</legend>

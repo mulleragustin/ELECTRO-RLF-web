@@ -1,6 +1,6 @@
-import { formatPrecio } from '../../format'
 import AddToCartButton from './AddToCartButton'
 import ConsultarButton from './ConsultarButton'
+import Precio from './Precio'
 import ProductImage from './ProductImage'
 
 export default function ProductCard({ producto, priority = false, headingLevel = 'h2', showDestacado = true }) {
@@ -31,9 +31,7 @@ export default function ProductCard({ producto, priority = false, headingLevel =
             {producto.marca}
           </p>
         ) : null}
-        {producto.precio ? (
-          <p className="mt-3 text-[20px] font-extrabold text-white">{formatPrecio(producto.precio)}</p>
-        ) : null}
+        <Precio producto={producto} />
 
         {/* En celulares chicos los botones van apilados: en fila no entran en la tarjeta. */}
         <div className="mt-auto flex flex-col gap-2 pt-4 sm:flex-row">

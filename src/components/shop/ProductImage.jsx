@@ -15,6 +15,23 @@ export default function ProductImage({ imagen, alt, priority = false, className 
     )
   }
 
+  if (imagen.con_marca) {
+    return (
+      <div className={`aspect-square overflow-hidden bg-[#dededa] ${className}`}>
+        <img
+          src={imagen.miniatura}
+          alt={alt}
+          width={600}
+          height={600}
+          loading={priority ? 'eager' : 'lazy'}
+          fetchPriority={priority ? 'high' : 'auto'}
+          decoding="async"
+          className="h-full w-full object-cover"
+        />
+      </div>
+    )
+  }
+
   const { width, height } = miniaturaSize(imagen)
   return (
     <div className={`aspect-square overflow-hidden bg-white ${className}`}>

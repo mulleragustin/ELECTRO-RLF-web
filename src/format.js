@@ -1,7 +1,24 @@
-const PRECIO = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' })
-
+// Formato argentino a mano ($ 1.357,95): Intl puede dar espacios distintos en
+// Node y en el navegador, y eso rompe la hidratación.
 export function formatPrecio(precio) {
-  return PRECIO.format(Number(precio))
+  const [entero, decimales] = Number(precio).toFixed(2).split('.')
+  const miles = entero.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+  return decimales === '00' ? `$ ${miles}` : `$ ${miles},${decimales}`
+}
+
+const UNIDADES_SINGULAR = {
+  m: 'metro',
+  cm: 'centímetro',
+  m2: 'metro cuadrado',
+  kg: 'kilo',
+  g: 'gramo',
+  l: 'litro',
+  ml: 'mililitro',
+}
+
+// "metro", "kilo"…; null para productos que se venden por unidad.
+export function unidadSingular(unidad) {
+  return UNIDADES_SINGULAR[unidad] || null
 }
 
 const UNIDADES_PLURAL = {

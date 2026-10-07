@@ -258,11 +258,14 @@ function escapeHtml(value) {
     .replace(/"/g, '&quot;')
 }
 
+// Las etiquetas salen en la forma más estándar posible (`<meta property="og:…"
+// content="…">`, sin atributos propios adelante): el lector de vistas previas
+// de WhatsApp no reconoce otra cosa y termina mostrando solo el <title>.
 export function renderSeoTags(seo) {
   const parts = [`<title>${escapeHtml(seo.title)}</title>`]
   for (const [tag, attrs] of seoTags(seo)) {
     const attributes = Object.entries(attrs).map(([key, value]) => `${key}="${escapeHtml(value)}"`).join(' ')
-    parts.push(`<${tag} data-seo ${attributes}>`)
+    parts.push(`<${tag} ${attributes}>`)
   }
   if (seo.jsonLd.length) {
     parts.push(`<script type="application/ld+json" data-seo>${jsonLdText(seo)}</script>`)
@@ -270,15 +273,25 @@ export function renderSeoTags(seo) {
   return parts.join('\n    ')
 }
 
+// Etiquetas que cambian con cada página (index.html no trae ninguna de estas).
+const ETIQUETAS_DE_PAGINA = [
+  'meta[name="description"]',
+  'meta[name="robots"]',
+  'link[rel="canonical"]',
+  'meta[property^="og:"]',
+  'meta[property^="product:"]',
+  'meta[name^="twitter:"]',
+  'script[type="application/ld+json"][data-seo]',
+].join(',')
+
 export function applySeo(seo) {
   document.title = seo.title
-  document.head.querySelectorAll('[data-seo]').forEach((element) => element.remove())
+  document.head.querySelectorAll(ETIQUETAS_DE_PAGINA).forEach((element) => element.remove())
 
   const fragment = document.createDocumentFragment()
   for (const [tag, attrs] of seoTags(seo)) {
     if (attrs.rel === 'preload') continue // solo sirve en la primera carga
     const element = document.createElement(tag)
-    element.setAttribute('data-seo', '')
     for (const [key, value] of Object.entries(attrs)) element.setAttribute(key, value)
     fragment.appendChild(element)
   }

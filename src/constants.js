@@ -7,7 +7,7 @@ export function whatsappLink(msg = WHATSAPP_MSG) {
 
 export const SITE = {
   name: 'ELECTRO RLF',
-  tagline: 'Ferretería Eléctrica & Servicios',
+  tagline: 'Ferretería & Electricidad',
   whatsapp: '3624866272',
   instagram: 'https://www.instagram.com/electrorlf',
   facebook: 'https://www.facebook.com/electroRLF',

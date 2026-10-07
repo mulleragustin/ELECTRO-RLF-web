@@ -134,7 +134,7 @@ export default function HomePage({ destacados = [] }) {
                 <div className="aspect-square w-full overflow-hidden rounded-lg border border-[#fff21233] bg-[#131313] md:size-[340px] lg:size-[390px] xl:size-[430px]">
                   <ImageSkeleton
                     src={HERO_IMAGE}
-                    alt="Ferretería eléctrica Electro RLF en Resistencia Chaco con materiales y atención en local"
+                    alt="Ferretería y electricidad Electro RLF en Resistencia, Chaco, con materiales y atención en el local"
                     priority={true}
                     width={1000}
                     height={1082}

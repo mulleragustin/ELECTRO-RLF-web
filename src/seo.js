@@ -1,6 +1,7 @@
 // SEO por página. El servidor lo inserta en el HTML (renderSeoTags) y el
 // navegador lo actualiza al navegar dentro del sitio (applySeo).
 import { formatPrecio } from './format'
+import { palabrasClave } from './palabrasClave'
 import { SITE } from './site'
 
 const INDEX = 'index, follow, max-image-preview:large'
@@ -10,7 +11,7 @@ const DEFAULT_IMAGE = {
   url: `${SITE.baseUrl}/assets/seo/og-image.jpg`,
   width: 1200,
   height: 630,
-  alt: 'Ferretería eléctrica Electro RLF en Resistencia, Chaco',
+  alt: 'Ferretería y electricidad Electro RLF en Resistencia, Chaco',
 }
 
 const SHOP_IMAGE = {
@@ -20,14 +21,14 @@ const SHOP_IMAGE = {
 
 const PAGES = {
   home: {
-    title: 'Ferretería eléctrica en Resistencia | ELECTRO RLF',
+    title: 'Ferretería y electricidad en Resistencia | ELECTRO RLF',
     description:
-      'Venta de materiales eléctricos, armado de tableros y todo lo que necesitás para tu hogar o tu obra. Coordiná por WhatsApp y retirá por el local más cercano en Resistencia, Chaco.',
+      'Ferretería y electricidad en Resistencia, Chaco: materiales eléctricos, plomería, herramientas y todo para tu hogar u obra. Comprá online o por WhatsApp y retirá en nuestras sedes.',
     path: '/',
     preloadImage: '/assets/seo/ferreteria-electrica-resistencia-electro-rlf.jpg',
   },
   about: {
-    title: 'Sobre ELECTRO RLF | Materiales eléctricos para tu obra u hogar en Resistencia',
+    title: 'Sobre ELECTRO RLF | Ferretería y electricidad en Resistencia',
     description:
       'Conocé ELECTRO RLF: atención personalizada, herramientas y materiales certificados; en el centro de Resistencia, Chaco.',
     path: '/nosotros',
@@ -194,6 +195,7 @@ export function buildSeo(route, page) {
   else seo = PAGES[route.name] || PAGES.notFound
 
   return {
+    keywords: palabrasClave(route, page),
     robots: INDEX,
     image: DEFAULT_IMAGE,
     ogType: 'website',
@@ -208,6 +210,7 @@ function seoTags(seo) {
   const image = seo.image || DEFAULT_IMAGE
   const tags = [
     ['meta', { name: 'description', content: seo.description }],
+    ['meta', { name: 'keywords', content: seo.keywords }],
     ['meta', { name: 'robots', content: seo.robots }],
   ]
   if (seo.canonical) tags.push(['link', { rel: 'canonical', href: seo.canonical }])
@@ -276,6 +279,7 @@ export function renderSeoTags(seo) {
 // Etiquetas que cambian con cada página (index.html no trae ninguna de estas).
 const ETIQUETAS_DE_PAGINA = [
   'meta[name="description"]',
+  'meta[name="keywords"]',
   'meta[name="robots"]',
   'link[rel="canonical"]',
   'meta[property^="og:"]',

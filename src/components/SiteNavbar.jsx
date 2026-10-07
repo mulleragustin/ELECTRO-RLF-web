@@ -84,7 +84,7 @@ export default function SiteNavbar() {
           >
             <img
               src={LOGO_IMAGE}
-              alt="Electro RLF - ferretería eléctrica en Resistencia"
+              alt="Electro RLF - ferretería y electricidad en Resistencia"
               width={855}
               height={263}
               decoding="async"

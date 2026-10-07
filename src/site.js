@@ -16,9 +16,9 @@ export function whatsappText(text) {
 export const SITE = {
   name: 'ELECTRO RLF',
   baseUrl: 'https://electrorlf.com.ar',
-  tagline: 'Ferretería eléctrica & servicios',
+  tagline: 'Ferretería y electricidad',
   description:
-    'Venta de materiales eléctricos, ferretería eléctrica y servicios residenciales en Resistencia, Chaco.',
+    'Ferretería y electricidad en Resistencia, Chaco: materiales eléctricos, plomería, herramientas y servicios residenciales.',
   whatsapp: '3624866272',
   whatsappFull: '+5493624866272',
   email: 'ventas@electrorlf.com',

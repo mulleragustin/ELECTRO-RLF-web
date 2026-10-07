@@ -57,7 +57,7 @@ export default function SiteFooter() {
               {SITE.name}
             </h3>
             <p className="mt-6 font-medium leading-relaxed text-[#e2e2e2b3]">
-              Ferretería eléctrica y servicio de instalación residencial en Resistencia, Chaco.
+              Ferretería y electricidad, con servicio de instalación residencial en Resistencia, Chaco.
               Calidad técnica y compromiso en cada proyecto.
             </p>
           </div>

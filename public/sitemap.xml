@@ -24,6 +24,12 @@
     </image:image>
   </url>
   <url>
+    <loc>https://electrorlf.com.ar/cambios-y-devoluciones</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
     <loc>https://electrorlf.com.ar/shop</loc>
     <lastmod>2026-10-06</lastmod>
     <changefreq>monthly</changefreq>

@@ -43,6 +43,12 @@ const PAGES = {
     path: '/carrito',
     robots: NOINDEX,
   },
+  returns: {
+    title: 'Cambios y devoluciones | ELECTRO RLF',
+    description:
+      'Política de cambios y devoluciones de ELECTRO RLF: 10 días para arrepentirte de la compra, cambios de productos sin uso y garantía legal de 6 meses.',
+    path: '/cambios-y-devoluciones',
+  },
   notFound: {
     title: 'Página no encontrada | ELECTRO RLF',
     description: 'La página que buscás no existe o el producto ya no está publicado.',

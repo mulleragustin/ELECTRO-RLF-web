@@ -1,6 +1,7 @@
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import AboutPage from './components/AboutPage'
 import CartPage from './components/CartPage'
+import ReturnsPage from './components/ReturnsPage'
 import ErrorPage from './components/ErrorPage'
 import HomePage from './components/HomePage'
 import NotFoundPage from './components/NotFoundPage'
@@ -161,6 +162,7 @@ function App({ initialUrl, initialPage }) {
   else if (route.name === 'shop') content = <ShopPage data={page.data} />
   else if (route.name === 'product') content = <ProductPage producto={page.data} />
   else if (route.name === 'cart') content = <CartPage />
+  else if (route.name === 'returns') content = <ReturnsPage />
   else content = <HomePage destacados={page.data?.destacados ?? []} />
 
   return (

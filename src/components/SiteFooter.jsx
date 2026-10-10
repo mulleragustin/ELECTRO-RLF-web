@@ -134,9 +134,19 @@ export default function SiteFooter() {
           data-animate="fade-up"
           className="flex flex-col items-center justify-between gap-8 border-t border-[#ffffff1a] pt-8 md:flex-row lg:pt-12"
         >
-          <p className="text-[12px] font-medium text-[#e2e2e2b3]">
-            &copy; 2026 {SITE.name}. Todos los derechos reservados.
-          </p>
+          <div className="flex flex-col items-center gap-3 md:items-start">
+            <p className="text-[12px] font-medium text-[#e2e2e2b3]">
+              &copy; 2026 {SITE.name}. Todos los derechos reservados.
+            </p>
+            <nav aria-label="Ayuda" className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-[12px] font-semibold text-[#e2e2e2b3]">
+              <a href="/cambios-y-devoluciones" className="transition-colors hover:text-white">
+                Cambios y devoluciones
+              </a>
+              <a href="/cambios-y-devoluciones#arrepentimiento" className="transition-colors hover:text-white">
+                Botón de arrepentimiento
+              </a>
+            </nav>
+          </div>
 
           <div className="flex items-center gap-3 text-[12px] font-medium text-[#e2e2e2b3]">
             <span>Design & developed by</span>

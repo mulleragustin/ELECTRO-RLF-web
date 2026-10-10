@@ -25,6 +25,7 @@ export function matchRoute(pathname) {
   if (pathname === '/nosotros') return { name: 'about' }
   if (pathname === '/shop') return { name: 'shop', rubro: '' }
   if (pathname === '/carrito') return { name: 'cart' }
+  if (pathname === '/cambios-y-devoluciones') return { name: 'returns' }
 
   let match = pathname.match(/^\/shop\/([a-z0-9-]+)$/)
   if (match) return { name: 'shop', rubro: match[1] }

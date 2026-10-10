@@ -21,7 +21,7 @@ export const SITE = {
     'Ferretería y electricidad en Resistencia, Chaco: materiales eléctricos, plomería, herramientas y servicios residenciales.',
   whatsapp: '3624866272',
   whatsappFull: '+5493624866272',
-  email: 'ventas@electrorlf.com',
+  email: 'electrorlf@tinystudioar.com',
   instagram: 'https://www.instagram.com/electrorlf',
   instagramHandle: '@ELECTRORLF',
   facebook: 'https://www.facebook.com/electroRLF',
